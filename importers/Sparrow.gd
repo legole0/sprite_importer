@@ -64,7 +64,7 @@ func convert_sprite(tex:Texture2D, atlas_path:String):
 		last_frame = frame.atlas_texture
 		sprite_frames.add_frame(frame.anim_name,frame.atlas_texture)
 		
-	var save_path:String = tex.resource_path.get_basename()+".tres" if !compress_output.button_pressed else ".res"
+	var save_path:String = tex.resource_path.get_basename()+(".tres" if !compress_output.button_pressed else ".res")
 	ResourceSaver.save(sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output.button_pressed else ResourceSaver.FLAG_COMPRESS)
 	if ResourceLoader.exists(save_path):
 		print("SpriteFrame succesfully created at path: "+save_path+"\nFound "+str(dupped_frame_count)+" dupped frames.")

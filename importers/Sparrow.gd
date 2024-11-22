@@ -12,11 +12,11 @@ func convert_sprite(tex:Texture2D, atlas_path:String):
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
+	await RenderingServer.frame_pre_draw
+	
 	var dupped_frame_count:int = 0
 	var last_frame:AtlasTexture = AtlasTexture.new()
 	last_frame.atlas = tex
-	
-	await RenderingServer.frame_pre_draw
 	
 	var rotated_img:Image = tex.get_image()
 	rotated_img.rotate_90(COUNTERCLOCKWISE)
@@ -32,39 +32,37 @@ func convert_sprite(tex:Texture2D, atlas_path:String):
 		var frame:SparrowFrame = SparrowFrame.new()
 		# gets the animation name without the 4 characters (frame index)
 		frame.anim_name = atlas.get_named_attribute_value("name").left(-4)
-		frame.frame_atlas.atlas = tex
+		frame.atlas_texture.atlas = tex
 		
 		if !sprite_frames.has_animation(frame.anim_name):
 			sprite_frames.add_animation(frame.anim_name)
 			sprite_frames.set_animation_loop(frame.anim_name,loop.button_pressed)
 			sprite_frames.set_animation_speed(frame.anim_name,fps.value)
 		
-		frame.frame_atlas.margin = Rect2(
+		frame.atlas_texture.region = Rect2(
 			atlas.get_named_attribute_value("x").to_float(),
 			atlas.get_named_attribute_value("y").to_float(),
 			atlas.get_named_attribute_value("width").to_float(),
 			atlas.get_named_attribute_value("height").to_float()
 			)
-		frame.frame_atlas.filter_clip = true
+		frame.atlas_texture.filter_clip = true
 		
 		frame.is_rotated = atlas.get_named_attribute_value_safe("rotated") == "true"
 		#if frame.is_rotated:
-			#frame.frame_atlas.atlas = rotated_tex
+			#frame.atlas_texture.atlas = rotated_tex
 		
-		if check_dupped.button_pressed and frame.frame_atlas.margin == last_frame.margin:
+		if check_dupped.button_pressed and frame.atlas_texture == last_frame:
 			dupped_frame_count += 1
-			frame.frame_atlas.region = last_frame.region
-		else:
-			frame.has_offset = atlas.has_attribute("frameX")
-			if frame.has_offset:
-				frame.frame_offset = Rect2(
-					atlas.get_named_attribute_value_safe("frameX").to_float(),
-					atlas.get_named_attribute_value_safe("frameY").to_float(),
-					abs(atlas.get_named_attribute_value_safe("frameWidth").to_float() - frame.frame_atlas.margin.size.x),
-					abs(atlas.get_named_attribute_value_safe("frameHeight").to_float() - frame.frame_atlas.margin.size.y)
-					)
-			last_frame = frame.frame_atlas
-		sprite_frames.add_frame(frame.anim_name,frame.frame_atlas)
+			frame.atlas_texture = last_frame
+		if atlas.has_attribute("frameX"):
+			frame.atlas_texture.margin = Rect2(
+				-atlas.get_named_attribute_value_safe("frameX").to_float(),
+				-atlas.get_named_attribute_value_safe("frameY").to_float(), 
+				atlas.get_named_attribute_value_safe("frameWidth").to_float() - frame.atlas_texture.region.size.x,
+				atlas.get_named_attribute_value_safe("frameHeight").to_float() - frame.atlas_texture.region.size.y
+				)
+		last_frame = frame.atlas_texture
+		sprite_frames.add_frame(frame.anim_name,frame.atlas_texture)
 		
 	var save_path:String = tex.resource_path.get_basename()+".tres" if !compress_output.button_pressed else ".res"
 	ResourceSaver.save(sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output.button_pressed else ResourceSaver.FLAG_COMPRESS)

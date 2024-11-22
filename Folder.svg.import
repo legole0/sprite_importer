@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cwjpsspp6duws"
-path="res://.godot/imported/Folder.svg-ac0fd5521588ea0d522ac6ccd2afee2b.ctex"
+path="res://.godot/imported/Folder.svg-abd5eec327ba7fc5fb11af9bc1ffcf2b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/FlashImport/Folder.svg"
-dest_files=["res://.godot/imported/Folder.svg-ac0fd5521588ea0d522ac6ccd2afee2b.ctex"]
+source_file="res://addons/SpriteImporter/Folder.svg"
+dest_files=["res://.godot/imported/Folder.svg-abd5eec327ba7fc5fb11af9bc1ffcf2b.ctex"]
 
 [params]
 

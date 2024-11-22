@@ -1,6 +1,7 @@
 > [!WARNING]
-> The tool is currently W.I.P aswell as this readme file
-> Dont expect anything to work as of now, until its posted on the Godot AssetLib, which should be a perfectly working version
+> The tool is currently W.I.P aswell as this readme file.
+> Dont expect anything to work as of now, until its posted
+ on the Godot AssetLib, which should be a perfectly working version
 
 # Sprite Importer for [Godot Engine](https://godotengine.org/)
 ## Features

@@ -16,12 +16,5 @@ func _exit_tree() -> void:
 	remove_control_from_bottom_panel(importer_scene)
 	importer_scene.queue_free()
 
-func _toggle_visible(visible):
-	if importer_scene:
-		importer_scene.visible = !importer_scene.visible
-
 func _get_plugin_name():
 	return "Sprite Importer"
-
-func _get_plugin_icon():
-	return EditorInterface.get_editor_theme().get_icon("Node", "EditorIcons")

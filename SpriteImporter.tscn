@@ -1,21 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://k8kx0lbjm1hj"]
-
-[sub_resource type="GDScript" id="GDScript_hfpg6"]
-resource_name = "Tooling this shit"
-script/source = "@tool
-extends Node
-
-@export var folder_button_array:Array[Button]
-
-func _enter_tree() -> void:
-	if Engine.is_editor_hint():
-		for button in folder_button_array:
-			button.text = \"\"
-			if EditorInterface.get_editor_theme().has_icon(\"Folder\", \"EditorIcons\"):
-				button.icon = EditorInterface.get_editor_theme().get_icon(\"Folder\", \"EditorIcons\")
-"
+[gd_scene load_steps=4 format=3 uid="uid://k8kx0lbjm1hj"]
 
 [sub_resource type="GDScript" id="GDScript_8qf63"]
+resource_name = "Sparrow"
 script/source = "@tool
 extends SpritesheetBase
 
@@ -88,7 +74,19 @@ func convert_sprite(tex:Texture2D, atlas_path:String):
 		print(\"SpriteFrame succesfully created at path: \"+save_path+\"\\nFound \"+str(dupped_frame_count)+\" dupped frames.\")
 "
 
-[node name="SpriteImporter" type="Control" node_paths=PackedStringArray("folder_button_array")]
+[sub_resource type="Image" id="Image_ly1ld"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 184, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 181, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 73, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 181, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 181, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 180, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_qffyh"]
+image = SubResource("Image_ly1ld")
+
+[node name="SpriteImporter" type="Control"]
 custom_minimum_size = Vector2(0, 350)
 layout_mode = 3
 anchors_preset = 15
@@ -97,8 +95,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = SubResource("GDScript_hfpg6")
-folder_button_array = [NodePath("TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/PathContainer/Folder")]
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -110,11 +106,16 @@ grow_vertical = 2
 current_tab = 0
 use_hidden_tabs_for_min_size = true
 
-[node name="Sparrow" type="TabBar" parent="TabContainer"]
+[node name="Sparrow" type="TabBar" parent="TabContainer" node_paths=PackedStringArray("sprite_path", "fps", "loop", "check_dupped", "compress_output")]
 visibility_layer = 5
 layout_mode = 2
 script = SubResource("GDScript_8qf63")
 atlas_format = ".xml"
+sprite_path = NodePath("MarginContainer/HSplitContainer/VBoxContainer/PathContainer/LineEdit")
+fps = NodePath("MarginContainer/HSplitContainer/VBoxContainer/FPS/SpinBox")
+loop = NodePath("MarginContainer/HSplitContainer/VBoxContainer/Loop")
+check_dupped = NodePath("MarginContainer/HSplitContainer/VBoxContainer/Dupped")
+compress_output = NodePath("MarginContainer/HSplitContainer/VBoxContainer/Compress")
 metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Sparrow"]
@@ -160,7 +161,7 @@ placeholder_text = "res://path/to/sprite.extension"
 [node name="Folder" type="Button" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/PathContainer"]
 layout_mode = 2
 tooltip_text = "Search through files"
-text = "..."
+icon = SubResource("ImageTexture_qffyh")
 
 [node name="PathNameReminder" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
 modulate = Color(1, 1, 0, 0.529412)
@@ -189,7 +190,7 @@ max_value = 2.14748e+09
 value = 24.0
 suffix = "FPS"
 
-[node name="CheckBox" type="CheckBox" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="Dupped" type="CheckBox" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 tooltip_text = "Skips re-parsing duplicated frames. Highly recommended"
@@ -209,6 +210,11 @@ text = "Compress Output"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Animation Tree"
 
 [node name="Convert" type="Button" parent="TabContainer/Sparrow"]
 layout_mode = 1

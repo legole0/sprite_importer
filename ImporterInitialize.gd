@@ -16,9 +16,6 @@ func _exit_tree() -> void:
 	remove_control_from_bottom_panel(importer_scene)
 	importer_scene.queue_free()
 
-func _has_main_screen():
-	return true
-
 func _toggle_visible(visible):
 	if importer_scene:
 		importer_scene.visible = !importer_scene.visible

@@ -4,13 +4,13 @@
 
 # Sprite Importer for [Godot Engine](https://godotengine.org/)
 ## Features
-    - Support for Sparrow v2 Spritesheets
-    - Support for Aseprite Spritesheets
-    - Support for Adobe's Texture Atlas'
+- Support for Sparrow v2 Spritesheets
+- Support for Aseprite Spritesheets
+- Support for Adobe's Texture Atlas'
 
 ## Usage
 **Yet to be written**
 
 ## Credits
-    - [legole0](https://github.com/legole0)
-    - [Binpuki](https://github.com/Binpuki)
+- [legole0](https://github.com/legole0)
+- [Binpuki](https://github.com/Binpuki)

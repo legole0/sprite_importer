@@ -103,10 +103,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 3
 use_hidden_tabs_for_min_size = true
 
 [node name="Sparrow" type="VBoxContainer" parent="TabContainer" node_paths=PackedStringArray("sprite_path", "fps", "loop", "check_dupped", "compress_output")]
+visible = false
 visibility_layer = 5
 layout_mode = 2
 script = SubResource("GDScript_8qf63")
@@ -244,6 +245,141 @@ visibility_layer = 5
 layout_mode = 2
 metadata/_tab_index = 2
 metadata/_edit_lock_ = true
+
+[node name="Misc" type="TabContainer" parent="TabContainer"]
+layout_mode = 2
+current_tab = 0
+metadata/_tab_index = 3
+
+[node name="SpriteFrames to Animation" type="VBoxContainer" parent="TabContainer/Misc"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Misc/SpriteFrames to Animation"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PathContainer" type="HBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/PathContainer"]
+layout_mode = 2
+text = "SpriteFrames Path:"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/PathContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "res://path/to/SpriteFrames.tres"
+
+[node name="Button" type="Button" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/PathContainer"]
+layout_mode = 2
+text = "Choose"
+
+[node name="ModeContainer" type="HBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/ModeContainer"]
+layout_mode = 2
+text = "Selection Mode:"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/ModeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "Select all animations"
+popup/item_0/id = 0
+popup/item_1/text = "Select onl animations checked below"
+popup/item_1/id = 1
+popup/item_2/text = "Select all animations except ones checked below"
+popup/item_2/id = 2
+
+[node name="ModeListContainer" type="HBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/ModeListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/ModeListContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/ModeListContainer/ScrollContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/ModeListContainer/ScrollContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "dasasasdsadsdsad"
+
+[node name="NodePathContainer" type="HBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/NodePathContainer"]
+layout_mode = 2
+text = "Specify an AnimatedSprite node directly or select from the list below:"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/NodePathContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Path/To/AnimatedSprite"
+
+[node name="NodePathSelection" type="ItemList" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+auto_height = true
+item_count = 2
+item_0/text = "Path/To/AnimatedSprite2D"
+item_1/text = "Path/To/AnimatedSprite3D"
+
+[node name="AnimationPlayerPath" type="HBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/AnimationPlayerPath"]
+layout_mode = 2
+text = "Specify the AnimationPlayer's root node directly or select an AnimationPlayer from the list below:"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/AnimationPlayerPath"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Path/To/Root/Node"
+
+[node name="AnimationPlayerSelection" type="ItemList" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+auto_height = true
+item_count = 2
+item_0/text = "Path/To/AnimatedSprite2D"
+item_1/text = "Path/To/AnimatedSprite3D"
+
+[node name="OutputContainer" type="HBoxContainer" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/OutputContainer"]
+layout_mode = 2
+text = "Output:"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/OutputContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "res://path/to/output.tres"
+
+[node name="Button" type="Button" parent="TabContainer/Misc/SpriteFrames to Animation/ScrollContainer/VBoxContainer/OutputContainer"]
+layout_mode = 2
+text = "Choose Folder"
+
+[node name="SaveButton" type="Button" parent="TabContainer/Misc/SpriteFrames to Animation"]
+layout_mode = 2
+text = "Create Animations off SpriteFrames"
 
 [connection signal="pressed" from="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/PathContainer/Folder" to="TabContainer/Sparrow" method="folder_button"]
 [connection signal="pressed" from="TabContainer/Sparrow/Convert" to="TabContainer/Sparrow" method="on_button_press"]

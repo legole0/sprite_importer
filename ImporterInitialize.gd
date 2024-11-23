@@ -10,7 +10,7 @@ func _enter_tree() -> void:
 	#EditorInterface.get_editor_main_screen().add_child(importer_scene)
 	add_control_to_bottom_panel(importer_scene, _get_plugin_name())
 	
-	print("Sprite Importer initialized correctly!")
+	print("Sprite Importer initialized successfully!")
 
 func _exit_tree() -> void:
 	remove_control_from_bottom_panel(importer_scene)

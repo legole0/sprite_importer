@@ -74,7 +74,7 @@ func convert_sprite(tex:Texture2D, atlas_path:String):
 		print(\"SpriteFrame succesfully created at path: \"+save_path+\"\\nFound \"+str(dupped_frame_count)+\" dupped frames.\")
 "
 
-[sub_resource type="Image" id="Image_ly1ld"]
+[sub_resource type="Image" id="Image_ghn3g"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 184, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 181, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 73, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 181, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 181, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 180, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -84,7 +84,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_qffyh"]
-image = SubResource("Image_ly1ld")
+image = SubResource("Image_ghn3g")
 
 [node name="SpriteImporter" type="Control"]
 custom_minimum_size = Vector2(0, 350)
@@ -106,127 +106,121 @@ grow_vertical = 2
 current_tab = 0
 use_hidden_tabs_for_min_size = true
 
-[node name="Sparrow" type="TabBar" parent="TabContainer" node_paths=PackedStringArray("sprite_path", "fps", "loop", "check_dupped", "compress_output")]
+[node name="Sparrow" type="VBoxContainer" parent="TabContainer" node_paths=PackedStringArray("sprite_path", "fps", "loop", "check_dupped", "compress_output")]
 visibility_layer = 5
 layout_mode = 2
 script = SubResource("GDScript_8qf63")
 atlas_format = ".xml"
-sprite_path = NodePath("MarginContainer/HSplitContainer/VBoxContainer/PathContainer/LineEdit")
-fps = NodePath("MarginContainer/HSplitContainer/VBoxContainer/FPS/SpinBox")
-loop = NodePath("MarginContainer/HSplitContainer/VBoxContainer/Loop")
-check_dupped = NodePath("MarginContainer/HSplitContainer/VBoxContainer/Dupped")
-compress_output = NodePath("MarginContainer/HSplitContainer/VBoxContainer/Compress")
+sprite_path = NodePath("ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/PathContainer/LineEdit")
+fps = NodePath("ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/FPS/SpinBox")
+loop = NodePath("ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/Loop")
+check_dupped = NodePath("ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/Dupped")
+compress_output = NodePath("ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/Compress")
 metadata/_tab_index = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Sparrow"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 5
-
-[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Sparrow/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Sparrow"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sparrow/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/minimum_grab_thickness = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer"]
 custom_minimum_size = Vector2(378, 260)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Importing"
 
-[node name="PathContainer" type="HBoxContainer" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="PathContainer" type="HBoxContainer" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/PathContainer"]
+[node name="Label" type="Label" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/PathContainer"]
 layout_mode = 2
 text = "Sprite Path:"
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/PathContainer"]
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/PathContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Set the path for the sprite"
 placeholder_text = "res://path/to/sprite.extension"
 
-[node name="Folder" type="Button" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/PathContainer"]
+[node name="Folder" type="Button" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/PathContainer"]
 layout_mode = 2
 tooltip_text = "Search through files"
 icon = SubResource("ImageTexture_qffyh")
 
-[node name="PathNameReminder" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="PathNameReminder" type="Label" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 modulate = Color(1, 1, 0, 0.529412)
 layout_mode = 2
 text = "*Atlas & Sprite need to have the same name"
 
-[node name="DirectoryReminder" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="DirectoryReminder" type="Label" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 modulate = Color(0.423529, 0.423529, 0.423529, 1)
 layout_mode = 2
 text = "*If the path is a folder, all the sprites will convert"
 
-[node name="FPS" type="HBoxContainer" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="FPS" type="HBoxContainer" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Framerate in which the animations are saved"
 
-[node name="Label" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/FPS"]
+[node name="Label" type="Label" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/FPS"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Frame Rate:"
 vertical_alignment = 1
 
-[node name="SpinBox" type="SpinBox" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/FPS"]
+[node name="SpinBox" type="SpinBox" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/FPS"]
 layout_mode = 2
 max_value = 2.14748e+09
 value = 24.0
 suffix = "FPS"
 
-[node name="Dupped" type="CheckBox" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="Dupped" type="CheckBox" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 tooltip_text = "Skips re-parsing duplicated frames. Highly recommended"
 button_pressed = true
 text = "Skip Duplicated"
 
-[node name="Loop" type="CheckBox" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="Loop" type="CheckBox" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Loop"
 
-[node name="Compress" type="CheckBox" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer"]
+[node name="Compress" type="CheckBox" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 tooltip_text = "Compresses the SpriteFrames into a .res file for smaller file size, tho it makes the file unreadable externally."
 text = "Compress Output"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Animation Tree"
 
 [node name="Convert" type="Button" parent="TabContainer/Sparrow"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -36.0
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 20
 text = "Import"
 
 [node name="Texture Atlas" type="TabBar" parent="TabContainer"]
@@ -251,5 +245,5 @@ layout_mode = 2
 metadata/_tab_index = 2
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="TabContainer/Sparrow/MarginContainer/HSplitContainer/VBoxContainer/PathContainer/Folder" to="TabContainer/Sparrow" method="folder_button"]
+[connection signal="pressed" from="TabContainer/Sparrow/ScrollContainer/VBoxContainer/HSplitContainer/VBoxContainer/PathContainer/Folder" to="TabContainer/Sparrow" method="folder_button"]
 [connection signal="pressed" from="TabContainer/Sparrow/Convert" to="TabContainer/Sparrow" method="on_button_press"]

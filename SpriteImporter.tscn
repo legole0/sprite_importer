@@ -103,11 +103,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 3
+current_tab = 0
 use_hidden_tabs_for_min_size = true
 
 [node name="Sparrow" type="VBoxContainer" parent="TabContainer" node_paths=PackedStringArray("sprite_path", "fps", "loop", "check_dupped", "compress_output")]
-visible = false
 visibility_layer = 5
 layout_mode = 2
 script = SubResource("GDScript_8qf63")
@@ -247,6 +246,7 @@ metadata/_tab_index = 2
 metadata/_edit_lock_ = true
 
 [node name="Misc" type="TabContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 current_tab = 0
 metadata/_tab_index = 3

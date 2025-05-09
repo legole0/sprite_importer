@@ -16,7 +16,7 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_mcfqj"]
 image = SubResource("Image_mcfqj")
 
-[node name="Sparrow" type="HSplitContainer" node_paths=PackedStringArray("sprite_path", "atlas_path", "anim_tree")]
+[node name="Sparrow" type="HSplitContainer" node_paths=PackedStringArray("sprite_path", "atlas_path", "fps", "check_dupped", "loop", "compress_output", "anim_tree")]
 visibility_layer = 5
 anchors_preset = -1
 anchor_left = 0.004
@@ -33,6 +33,10 @@ script = ExtResource("1_qq2jt")
 importer_script = ExtResource("2_mcfqj")
 sprite_path = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/SpritePath")
 atlas_path = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/AtlasPath")
+fps = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS/SpinBox")
+check_dupped = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Dupped")
+loop = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Loop")
+compress_output = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Compress")
 anim_tree = NodePath("VBoxContainer2/Tree")
 metadata/_tab_index = 0
 
@@ -181,7 +185,7 @@ layout_mode = 2
 text = "Make From Tree"
 autowrap_mode = 3
 
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button"]
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button"]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button" binds= [NodePath("../SpritePath")]]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button" binds= [NodePath("."), NodePath("../AtlasPath")]]
 [connection signal="pressed" from="VBoxContainer/AddToTree" to="." method="add_to_tree"]
 [connection signal="pressed" from="VBoxContainer/QuickImport" to="." method="on_quick_import"]

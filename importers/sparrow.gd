@@ -1,5 +1,5 @@
 @tool
-extends Importer
+extends SpriteImporter
 
 func get_format_name() -> String:
 	return "Sparrow"
@@ -10,26 +10,23 @@ func needs_atlas_path() -> bool:
 func get_atlas_extension() -> String:
 	return ".xml"
 
-func convert_sprite(tex:Texture2D, atlas_path:String, check_dupped:bool = true, loop:bool = false, fps:int = 24, compress_output:bool = false):
-	var atlas:XMLParser = XMLParser.new()
-	atlas.open(atlas_path)
-	
-	while atlas.read() == FAILED:
-		printerr("Atlas failed loading at given path.")
-		return
-	
+func convert_sprite(sprite_data:ImporterSpriteData):
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
+	sprite_data.read_atlas(sprite_data.atlas_path)
+	
 	await RenderingServer.frame_pre_draw
+	
+	var atlas:XMLParser = sprite_data.atlas
 	
 	var dupped_frame_count:int = 0
 	var last_frame:AtlasTexture = AtlasTexture.new()
-	last_frame.atlas = tex
+	last_frame.atlas = sprite_data.texture
 	
-	var rotated_img:Image = tex.get_image()
-	rotated_img.rotate_90(COUNTERCLOCKWISE)
-	var rotated_tex:ImageTexture = ImageTexture.create_from_image(rotated_img)
+	#var rotated_img:Image = tex.get_image()
+	#rotated_img.rotate_90(COUNTERCLOCKWISE)
+	#var rotated_tex:ImageTexture = ImageTexture.create_from_image(rotated_img)
 	
 	while atlas.read() == OK:
 		if atlas.get_node_type() != XMLParser.NODE_ELEMENT: continue
@@ -41,12 +38,12 @@ func convert_sprite(tex:Texture2D, atlas_path:String, check_dupped:bool = true, 
 		var frame:SparrowFrame = SparrowFrame.new()
 		# gets the animation name without the 4 characters (frame index)
 		frame.anim_name = atlas.get_named_attribute_value("name").left(-4)
-		frame.atlas_texture.atlas = tex
+		frame.atlas_texture.atlas = sprite_data.texture
 		
 		if !sprite_frames.has_animation(frame.anim_name):
 			sprite_frames.add_animation(frame.anim_name)
-			sprite_frames.set_animation_loop(frame.anim_name,loop)
-			sprite_frames.set_animation_speed(frame.anim_name,fps)
+			sprite_frames.set_animation_loop(frame.anim_name,sprite_data.loop)
+			sprite_frames.set_animation_speed(frame.anim_name,sprite_data.fps)
 		
 		frame.atlas_texture.region = Rect2(
 			atlas.get_named_attribute_value("x").to_float(),
@@ -60,7 +57,7 @@ func convert_sprite(tex:Texture2D, atlas_path:String, check_dupped:bool = true, 
 		#if frame.is_rotated:
 			#frame.atlas_texture.atlas = rotated_tex
 		
-		if check_dupped and frame.atlas_texture == last_frame:
+		if sprite_data.check_dupped and frame.atlas_texture.region == last_frame.region:
 			dupped_frame_count += 1
 			frame.atlas_texture = last_frame
 		if atlas.has_attribute("frameX"):
@@ -73,7 +70,9 @@ func convert_sprite(tex:Texture2D, atlas_path:String, check_dupped:bool = true, 
 		last_frame = frame.atlas_texture
 		sprite_frames.add_frame(frame.anim_name,frame.atlas_texture)
 		
-	var save_path:String = tex.resource_path.get_basename()+(".tres" if !compress_output else ".res")
-	ResourceSaver.save(sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output else ResourceSaver.FLAG_COMPRESS)
+	var sprite_path:String = sprite_data.texture.resource_path.get_basename()
+	var save_path:String = sprite_path+(".tres" if !sprite_data.compress_output else ".res")
+	
+	ResourceSaver.save(sprite_frames,save_path,ResourceSaver.FLAG_NONE if !sprite_data.compress_output else ResourceSaver.FLAG_COMPRESS)
 	if ResourceLoader.exists(save_path):
 		print("SpriteFrame succesfully created at path: "+save_path+"\nFound "+str(dupped_frame_count)+" dupped frames.")

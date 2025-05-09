@@ -2,7 +2,7 @@ extends Control
 class_name ImporterTab
 
 @export var importer_script:GDScript
-var importer:Importer
+var importer:SpriteImporter
 
 @export_group("References")
 @export var sprite_path:LineEdit
@@ -18,22 +18,21 @@ var focused_line_edit:NodePath
 func _enter_tree() -> void:
 	if importer_script == null:
 		return
-	importer = (importer_script).new() as Importer
+	importer = (importer_script).new() as SpriteImporter
+	name = importer.get_format_name()
 	
 	if sprite_path != null or atlas_path != null and importer.needs_atlas_path():
 		sprite_path.connect("text_changed", autofill_atlas_path)
 		sprite_path.connect("text_submitted", autofill_atlas_path)
 
-func on_quick_import() -> void:
-	print("Importing Sprite...")
-	
-	var sprite_list:Array[String] = []
+func process_sprite() -> PackedStringArray:
+	var sprite_list:PackedStringArray
 	var path_is_directory:bool = sprite_path.text.get_extension().is_empty()
 	
 	if path_is_directory:
 		if !importer.should_check_dir():
 			printerr("Provided path is a directory.")
-			return
+			return PackedStringArray()
 		
 		print("Provided path is a directory. Converting every sprite in it...")
 		
@@ -44,6 +43,20 @@ func on_quick_import() -> void:
 			print("Found sprite: " + sprite_path.text+sprite)
 	else:
 		sprite_list.append(sprite_path.text)
+	
+	return sprite_list
+
+func add_to_tree(sprite_data:ImporterSpriteData):
+	var sprite_list:PackedStringArray = process_sprite()
+	
+	if sprite_list.is_empty():
+		printerr("No sprites found with the given path.")
+		return
+	
+	
+
+func on_quick_import() -> void:
+	var sprite_list:PackedStringArray = process_sprite()
 	
 	if sprite_list.is_empty():
 		printerr("No sprites found with the given path.")
@@ -58,8 +71,16 @@ func on_quick_import() -> void:
 		var atlas:String = sprite.get_basename()+importer.get_atlas_extension() if atlas_path.text.is_empty() else atlas_path.text
 		
 		print("Sprite Path: "+sprite+"\nAtlas Path: "+atlas)
-		importer.convert_sprite(texture,atlas,check_dupped.button_pressed,loop.button_pressed,fps.value,compress_output.button_pressed)
-
+		
+		var sprite_data:ImporterSpriteData = ImporterSpriteData.new()
+		sprite_data.texture = texture
+		sprite_data.atlas_path = atlas
+		sprite_data.check_dupped = check_dupped.button_pressed
+		sprite_data.loop = loop.button_pressed
+		sprite_data.fps = fps.value
+		sprite_data.compress_output = compress_output.button_pressed
+		
+		importer.convert_sprite(sprite_data)
 
 func _make_file_dialog() -> ConfirmationDialog:
 	if Engine.is_editor_hint():
@@ -92,11 +113,8 @@ func _exit_tree() -> void:
 		sprite_path.disconnect("text_changed", autofill_atlas_path)
 		sprite_path.disconnect("text_submitted", autofill_atlas_path)
 
-func folder_button(button_node_path:NodePath, _focused_line_edit:NodePath) -> void:
-	#reminder for myself
-	#using nodepaths is relative so this shit wont work, ill have to use manual paths or something
-	#imma play fortnite fuck this
-	focused_line_edit = _focused_line_edit
+func folder_button(_focused_line_edit:String) -> void:
+	focused_line_edit = NodePath(_focused_line_edit)
 	
 	var file_dialog:ConfirmationDialog = _make_file_dialog()
 	add_child(file_dialog)
@@ -136,6 +154,3 @@ func autofill_atlas_path(new_path:String):
 		
 		if FileAccess.file_exists(atlas_path_predict):
 			atlas_path.text = atlas_path_predict
-
-func add_to_tree():
-	pass

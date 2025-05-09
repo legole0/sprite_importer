@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8bj08fb3jmet" path="res://addons/sprite_importer/plugin_scene.gd" id="1_ego4u"]
 
-[node name="SpriteImporter" type="Control"]
+[node name="SpriteImporter" type="Control" node_paths=PackedStringArray("tab_container")]
 custom_minimum_size = Vector2(0, 350)
 layout_mode = 3
 anchors_preset = 15
@@ -12,6 +12,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_ego4u")
+tabs_path = "res://addons/sprite_importer/tabs"
+tab_container = NodePath("TabContainer")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1

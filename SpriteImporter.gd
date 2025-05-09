@@ -1,5 +1,5 @@
 extends RefCounted
-class_name Importer
+class_name SpriteImporter
 
 ## Name of the format. Will be used as the name of the tab.
 func get_format_name() -> String:

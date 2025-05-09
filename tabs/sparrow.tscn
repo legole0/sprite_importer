@@ -175,6 +175,13 @@ layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_mcfqj")
 
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Compress" type="CheckBox" parent="VBoxContainer2/PanelContainer"]
+layout_mode = 2
+text = "Compress Output"
+
 [node name="RemoveFromTree" type="Button" parent="VBoxContainer2"]
 layout_mode = 2
 text = "<- Remove From Tree"
@@ -185,7 +192,7 @@ layout_mode = 2
 text = "Make From Tree"
 autowrap_mode = 3
 
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button" binds= [NodePath("../SpritePath")]]
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button" binds= [NodePath("."), NodePath("../AtlasPath")]]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button" binds= ["VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/SpritePath"]]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button" binds= ["VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/AtlasPath"]]
 [connection signal="pressed" from="VBoxContainer/AddToTree" to="." method="add_to_tree"]
 [connection signal="pressed" from="VBoxContainer/QuickImport" to="." method="on_quick_import"]

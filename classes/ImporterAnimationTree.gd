@@ -1,0 +1,2 @@
+extends Tree
+class_name ImporterAnimationTree

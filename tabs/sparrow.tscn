@@ -1,0 +1,187 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5cxhrxi660tp"]
+
+[ext_resource type="Script" uid="uid://cs78flk1fnkl7" path="res://addons/sprite_importer/classes/ImporterTab.gd" id="1_qq2jt"]
+[ext_resource type="Script" uid="uid://devi88sa3p828" path="res://addons/sprite_importer/importers/sparrow.gd" id="2_mcfqj"]
+[ext_resource type="Script" uid="uid://0mr8bmgx4pot" path="res://addons/sprite_importer/classes/ImporterAnimationTree.gd" id="3_mcfqj"]
+
+[sub_resource type="Image" id="Image_mcfqj"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 184, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 181, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 73, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 181, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 181, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 180, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_mcfqj"]
+image = SubResource("Image_mcfqj")
+
+[node name="Sparrow" type="HSplitContainer" node_paths=PackedStringArray("sprite_path", "atlas_path", "anim_tree")]
+visibility_layer = 5
+anchors_preset = -1
+anchor_left = 0.004
+anchor_top = 0.008
+anchor_right = 0.996
+anchor_bottom = 0.992
+offset_left = 0.392
+offset_top = -0.184
+offset_right = -0.39209
+offset_bottom = 0.18396
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qq2jt")
+importer_script = ExtResource("2_mcfqj")
+sprite_path = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/SpritePath")
+atlas_path = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/AtlasPath")
+anim_tree = NodePath("VBoxContainer2/Tree")
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Importer"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/ScrollContainer"]
+custom_minimum_size = Vector2(378, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SpritePathContainer" type="HBoxContainer" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer"]
+layout_mode = 2
+text = "Sprite Path:"
+vertical_alignment = 1
+
+[node name="SpritePath" type="LineEdit" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Set the path for the sprite"
+placeholder_text = "res://path/to/sprite.extension"
+
+[node name="Folder" type="Button" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer"]
+layout_mode = 2
+tooltip_text = "Search through files"
+icon = SubResource("ImageTexture_mcfqj")
+
+[node name="AtlasPathContainer" type="HBoxContainer" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer"]
+layout_mode = 2
+text = "Atlas Path:"
+vertical_alignment = 1
+
+[node name="AtlasPath" type="LineEdit" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Set the path for the sprite"
+placeholder_text = "res://path/to/atlas.extension"
+
+[node name="Folder" type="Button" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer"]
+layout_mode = 2
+tooltip_text = "Search through files"
+icon = SubResource("ImageTexture_mcfqj")
+
+[node name="DirectoryReminder" type="Label" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+modulate = Color(0.423529, 0.423529, 0.423529, 1)
+layout_mode = 2
+text = "*If the path is a folder, all the sprites will convert"
+
+[node name="FPS" type="HBoxContainer" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Framerate in which the animations are saved"
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Frame Rate:"
+vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS"]
+layout_mode = 2
+max_value = 2.14748e+09
+value = 24.0
+suffix = "FPS"
+
+[node name="Dupped" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Skips re-parsing duplicated frames. Highly recommended"
+button_pressed = true
+text = "Skip Duplicated"
+
+[node name="Loop" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Loop"
+
+[node name="Compress" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Compresses the SpriteFrames into a .res file for smaller file size, tho it makes the file unreadable externally."
+text = "Compress Output"
+
+[node name="AddToTree" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Add To Tree ->"
+autowrap_mode = 3
+
+[node name="QuickImport" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quick Import"
+autowrap_mode = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Animation Tree"
+horizontal_alignment = 1
+
+[node name="Tree" type="Tree" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_mcfqj")
+
+[node name="RemoveFromTree" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = "<- Remove From Tree"
+autowrap_mode = 3
+
+[node name="ImportTree" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Make From Tree"
+autowrap_mode = 3
+
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button"]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button"]
+[connection signal="pressed" from="VBoxContainer/AddToTree" to="." method="add_to_tree"]
+[connection signal="pressed" from="VBoxContainer/QuickImport" to="." method="on_quick_import"]

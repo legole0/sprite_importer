@@ -25,8 +25,9 @@ func _enter_tree() -> void:
 		sprite_path.connect("text_changed", autofill_atlas_path)
 		sprite_path.connect("text_submitted", autofill_atlas_path)
 
-func process_sprite() -> PackedStringArray:
-	var sprite_list:PackedStringArray
+func process_sprite() -> Array[ImporterSpriteData]:
+	var sprite_list:Array[ImporterSpriteData]
+	var sprite_name_list:PackedStringArray
 	var path_is_directory:bool = sprite_path.text.get_extension().is_empty()
 	
 	if path_is_directory:
@@ -39,30 +40,12 @@ func process_sprite() -> PackedStringArray:
 		var folder_sprites:PackedStringArray = DirAccess.get_files_at(sprite_path.text);
 		
 		for sprite:String in folder_sprites:
-			sprite_list.append(sprite_path.text+sprite)
+			sprite_name_list.append(sprite_path.text+sprite)
 			print("Found sprite: " + sprite_path.text+sprite)
 	else:
-		sprite_list.append(sprite_path.text)
+		sprite_name_list.append(sprite_path.text)
 	
-	return sprite_list
-
-func add_to_tree(sprite_data:ImporterSpriteData):
-	var sprite_list:PackedStringArray = process_sprite()
-	
-	if sprite_list.is_empty():
-		printerr("No sprites found with the given path.")
-		return
-	
-	
-
-func on_quick_import() -> void:
-	var sprite_list:PackedStringArray = process_sprite()
-	
-	if sprite_list.is_empty():
-		printerr("No sprites found with the given path.")
-		return
-	
-	for sprite:String in sprite_list:
+	for sprite:String in sprite_name_list:
 		if !ResourceLoader.exists(sprite):
 			printerr("Path \""+sprite+"\" doesn\'t appear to be a valid sprite type.")
 			continue
@@ -79,7 +62,28 @@ func on_quick_import() -> void:
 		sprite_data.loop = loop.button_pressed
 		sprite_data.fps = fps.value
 		sprite_data.compress_output = compress_output.button_pressed
-		
+		sprite_list.append(sprite_data)
+	
+	return sprite_list
+
+func add_to_tree():
+	var sprite_list:Array[ImporterSpriteData] = process_sprite()
+	
+	if sprite_list.is_empty():
+		printerr("Couldn't add to tree. No sprites found with the given path.")
+		return
+	
+	for sprite_data:ImporterSpriteData in sprite_list:
+		anim_tree.recieve_sprite(sprite_data)
+
+func on_quick_import() -> void:
+	var sprite_list:Array[ImporterSpriteData] = process_sprite()
+	
+	if sprite_list.is_empty():
+		printerr("Couldn't import. No sprites found with the given path.")
+		return
+	
+	for sprite_data:ImporterSpriteData in sprite_list:
 		importer.convert_sprite(sprite_data)
 
 func _make_file_dialog() -> ConfirmationDialog:
@@ -119,6 +123,7 @@ func folder_button(_focused_line_edit:String) -> void:
 	var file_dialog:ConfirmationDialog = _make_file_dialog()
 	add_child(file_dialog)
 	file_dialog.popup_centered()
+	file_dialog.connect("visibility_changed", func(): file_dialog.queue_free())
 
 func file_selected(path:String) -> void:
 	var is_sprite_path = true #temporary

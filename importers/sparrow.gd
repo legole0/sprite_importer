@@ -14,11 +14,17 @@ func convert_sprite(sprite_data:ImporterSpriteData):
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
-	sprite_data.read_atlas(sprite_data.atlas_path)
-	
-	await RenderingServer.frame_pre_draw
+	#await RenderingServer.frame_pre_draw
 	
 	var atlas:XMLParser = sprite_data.atlas
+	
+	var animation_list:PackedStringArray = sprite_data.get_animation_list()
+	var frame_list:Array[SparrowFrame]
+	for animation:String in animationString:
+		var frame:SparrowFrame = SparrowFrame.new()
+		# gets the animation name without the 4 characters (frame index)
+		frame.anim_name = atlas.get_named_attribute_value("name").left(-4)
+		frame.atlas_texture.atlas = sprite_data.texture
 	
 	var dupped_frame_count:int = 0
 	var last_frame:AtlasTexture = AtlasTexture.new()

@@ -85,6 +85,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Set the path for the sprite"
 placeholder_text = "res://path/to/sprite.extension"
+virtual_keyboard_type = 7
+metadata/is_sprite_path = true
 
 [node name="Folder" type="Button" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer"]
 layout_mode = 2
@@ -105,6 +107,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Set the path for the sprite"
 placeholder_text = "res://path/to/atlas.extension"
+virtual_keyboard_type = 7
 
 [node name="Folder" type="Button" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer"]
 layout_mode = 2
@@ -172,13 +175,14 @@ theme_override_font_sizes/font_size = 24
 text = "Animation Tree"
 horizontal_alignment = 1
 
-[node name="Tree" type="Tree" parent="VBoxContainer2"]
+[node name="Tree" type="Tree" parent="VBoxContainer2" node_paths=PackedStringArray("tab")]
 layout_mode = 2
 size_flags_vertical = 3
 allow_rmb_select = true
 hide_root = true
 auto_tooltip = false
 script = ExtResource("3_mcfqj")
+tab = NodePath("../..")
 checkbox_icon_unpressed = ExtResource("4_kwuyh")
 checkbox_icon_pressed = ExtResource("5_jwtdu")
 
@@ -203,5 +207,6 @@ autowrap_mode = 3
 [connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button" binds= ["VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/AtlasPath"]]
 [connection signal="pressed" from="VBoxContainer/AddToTree" to="." method="add_to_tree"]
 [connection signal="pressed" from="VBoxContainer/QuickImport" to="." method="on_quick_import"]
+[connection signal="button_clicked" from="VBoxContainer2/Tree" to="VBoxContainer2/Tree" method="item_button_clicked"]
 [connection signal="pressed" from="VBoxContainer2/RemoveFromTree" to="VBoxContainer2/Tree" method="remove_sprite"]
 [connection signal="pressed" from="VBoxContainer2/ImportTree" to="VBoxContainer2/Tree" method="import_tree"]

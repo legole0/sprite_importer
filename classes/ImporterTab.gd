@@ -41,13 +41,14 @@ func process_sprite() -> Array[ImporterSpriteData]:
 		
 		for sprite:String in folder_sprites:
 			sprite_name_list.append(sprite_path.text+sprite)
-			print("Found sprite: " + sprite_path.text+sprite)
+			#print("Found sprite: " + sprite_path.text+sprite)
 	else:
 		sprite_name_list.append(sprite_path.text)
 	
 	for sprite:String in sprite_name_list:
-		if !ResourceLoader.exists(sprite):
-			printerr("Path \""+sprite+"\" doesn\'t appear to be a valid sprite type.")
+		if !FileAccess.file_exists(sprite) or !importer.get_texture_extensions().has("."+sprite.get_extension()):
+			if !path_is_directory:
+				printerr("Path \""+sprite+"\" doesn\'t appear to be a valid sprite type.")
 			continue
 		
 		var texture:Texture2D = load(sprite)
@@ -75,6 +76,9 @@ func add_to_tree():
 	
 	for sprite_data:ImporterSpriteData in sprite_list:
 		anim_tree.recieve_sprite(sprite_data)
+	
+	sprite_path.text = ""
+	atlas_path.text = ""
 
 func on_quick_import() -> void:
 	var sprite_list:Array[ImporterSpriteData] = process_sprite()
@@ -83,8 +87,11 @@ func on_quick_import() -> void:
 		printerr("Couldn't import. No sprites found with the given path.")
 		return
 	
+	# doing importer.convert_sprite(sprite_list)
+	# would put all the sprites into the same SpriteFrames!!
 	for sprite_data:ImporterSpriteData in sprite_list:
-		importer.convert_sprite(sprite_data)
+		var array:Array[ImporterSpriteData] = [sprite_data]
+		importer.convert_sprite(array)
 
 func _make_file_dialog() -> ConfirmationDialog:
 	if Engine.is_editor_hint():
@@ -126,7 +133,10 @@ func folder_button(_focused_line_edit:String) -> void:
 	file_dialog.connect("visibility_changed", func(): file_dialog.queue_free())
 
 func file_selected(path:String) -> void:
-	var is_sprite_path = true #temporary
+	var line_edit = get_node(focused_line_edit)
+	if line_edit is not LineEdit or line_edit == null:
+		return
+	var is_sprite_path = line_edit.get_meta("is_sprite_path", false)
 	
 	if is_sprite_path:
 		var texture_extensions:PackedStringArray = importer.get_texture_extensions()
@@ -140,9 +150,7 @@ func file_selected(path:String) -> void:
 		
 		autofill_atlas_path(path)
 	
-	var line_edit = get_node(focused_line_edit)
-	if line_edit is LineEdit and line_edit != null:
-		line_edit.text = path;
+	line_edit.text = path;
 
 func dir_selected(path:String) -> void:
 	if !path.ends_with("/"):

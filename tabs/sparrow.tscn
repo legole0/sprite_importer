@@ -48,7 +48,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 text = "Importer"
 horizontal_alignment = 1
 
@@ -57,10 +57,9 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
+offset_right = 564.0
+offset_bottom = 529.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -170,7 +169,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 text = "Animation Tree"
 horizontal_alignment = 1
 
@@ -187,6 +186,7 @@ trash_icon = ExtResource("4_a78v5")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2"]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="Compress" type="CheckBox" parent="VBoxContainer2/PanelContainer"]
 layout_mode = 2

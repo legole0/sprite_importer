@@ -10,7 +10,7 @@ func needs_atlas_path() -> bool:
 func get_atlas_extension() -> String:
 	return ".xml"
 
-func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:Array[String] = []):
+func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:Array[String] = [], force_compress_output:bool = false):
 	print(disabled_anims)
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
@@ -81,7 +81,7 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:
 	# GOTTA FIND A BETTER WAY AT HANDLING SAVING FOR MULTIPLE-ATLAS SPRITEFRAMES!!!
 	# BUT FOR NOW IT JUST SAVES IT IN THE FIRST ONE'S PATH
 	var sprite_path:String = sprite_data_array[0].texture.resource_path.get_basename()
-	var compress_output:bool = sprite_data_array[0].compress_output
+	var compress_output:bool = sprite_data_array[0].compress_output or force_compress_output
 	var save_path:String = sprite_path+(".tres" if !compress_output else ".res")
 	
 	ResourceSaver.save(sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output else ResourceSaver.FLAG_COMPRESS)

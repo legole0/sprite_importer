@@ -139,16 +139,9 @@ func file_selected(path:String) -> void:
 	var is_sprite_path = line_edit.get_meta("is_sprite_path", false)
 	
 	if is_sprite_path:
-		var texture_extensions:PackedStringArray = importer.get_texture_extensions()
-		if !texture_extensions.has(path.get_extension()):
-			var found_new_extension:bool = false
-			for tex_extension:String in texture_extensions:
-				if FileAccess.file_exists(path.get_basename() + tex_extension):
-					found_new_extension = true
-					path = path.get_basename() + tex_extension
-					break
-		
 		autofill_atlas_path(path)
+	else:
+		autofill_sprite_path(path)
 	
 	line_edit.text = path;
 
@@ -160,6 +153,15 @@ func dir_selected(path:String) -> void:
 	if line_edit is LineEdit and line_edit != null:
 		line_edit.text = path;
 	autofill_atlas_path(path)
+
+func autofill_sprite_path(new_path:String):
+	var texture_extensions:PackedStringArray = importer.get_texture_extensions()
+	if !texture_extensions.has(new_path.get_extension()):
+		var found_new_extension:bool = false
+		for tex_extension:String in texture_extensions:
+			if FileAccess.file_exists(new_path.get_basename() + tex_extension):
+				found_new_extension = true
+				sprite_path.text = new_path.get_basename() + tex_extension
 
 func autofill_atlas_path(new_path:String):
 	if importer.get_texture_extensions().has("."+new_path.get_extension()):

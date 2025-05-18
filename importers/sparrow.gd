@@ -11,6 +11,7 @@ func get_atlas_extension() -> String:
 	return ".xml"
 
 func convert_sprite(sprite_data_array:Array[ImporterSpriteData], new_animation_names:Dictionary[String,String] = {}):
+	print(new_animation_names)
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
@@ -31,12 +32,8 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], new_animation_n
 			if node_name != "subtexture":
 				continue
 			
-			var anim_name:String = atlas.get_named_attribute_value("name").left(-4)
-			if new_animation_names.has(anim_name) and !new_animation_names[anim_name].is_empty():
-				anim_name = new_animation_names[anim_name]
-			
 			var frame:SparrowFrame = SparrowFrame.new()
-			frame.anim_name = anim_name
+			frame.anim_name = atlas.get_named_attribute_value("name").left(-4)
 			frame.atlas_texture.atlas = sprite_data.texture
 			
 			frame.atlas_texture.region = Rect2(
@@ -60,12 +57,17 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], new_animation_n
 		var use_new_anim_names:bool = !new_animation_names.is_empty()
 		
 		for frame:SparrowFrame in frame_list:
-			var anim_name:String = frame.anim_name if !use_new_anim_names else new_animation_names[frame.anim_name]
+			var anim_name:String = frame.anim_name
+			if use_new_anim_names and new_animation_names.has(anim_name):
+				anim_name = new_animation_names[frame.anim_name]
 			
-			if !sprite_frames.has_animation(frame.anim_name):
-				sprite_frames.add_animation(frame.anim_name)
-				sprite_frames.set_animation_loop(frame.anim_name,sprite_data.loop)
-				sprite_frames.set_animation_speed(frame.anim_name,sprite_data.fps)
+			if sprite_data_array.size() > 1:
+				anim_name = sprite_data.atlas_path.get_file().get_basename() + "_" + anim_name
+			
+			if !sprite_frames.has_animation(anim_name):
+				sprite_frames.add_animation(anim_name)
+				sprite_frames.set_animation_loop(anim_name,sprite_data.loop)
+				sprite_frames.set_animation_speed(anim_name,sprite_data.fps)
 			
 			if sprite_data.check_dupped and frame.atlas_texture.region == last_frame.region:
 				dupped_frame_count += 1
@@ -75,7 +77,7 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], new_animation_n
 				frame.atlas_texture.margin = frame.atlas_margin
 			
 			last_frame = frame.atlas_texture
-			sprite_frames.add_frame(frame.anim_name,frame.atlas_texture)
+			sprite_frames.add_frame(anim_name,frame.atlas_texture)
 	
 	# GOTTA FIND A BETTER WAY AT HANDLING SAVING FOR MULTIPLE-ATLAS SPRITEFRAMES!!!
 	# BUT FOR NOW IT JUST SAVES IT IN THE FIRST ONE'S PATH

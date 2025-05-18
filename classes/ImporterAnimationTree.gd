@@ -3,30 +3,32 @@ class_name ImporterAnimationTree
 
 @export var tab:ImporterTab
 
-@export_group("CheckBox")
-@export var checkbox_icon_unpressed:Texture2D
-@export var checkbox_icon_pressed:Texture2D
-
 func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 	if get_root() == null:
 		var root:TreeItem = create_item()
 	
 	var sprite:TreeItem = create_item(get_root())
 	sprite.set_text(0, sprite_data.texture.resource_path.get_basename())
-	
+	sprite.collapsed = true
+	set_column_expand(0, false)
+	sprite.set_expand_right(0,true)
 	#sprite.add_button(0, checkbox_icon_pressed)
 	sprite.set_metadata(0, sprite_data)
 	
 	for anim_name:String in sprite_data.animation_list:
 		var anim:TreeItem = create_item(sprite)
-		anim.set_text(0, anim_name)
-		#anim.add_button(0,checkbox_icon_pressed)
+		anim.set_cell_mode(0,TreeItem.CELL_MODE_CHECK)
+		anim.set_checked(0, true)
 		anim.set_editable(0, true)
+		
+		anim.set_cell_mode(1, TreeItem.CELL_MODE_STRING)
+		anim.set_text(1, anim_name)
+		anim.set_editable(1, true)
 
 func press_checkbox() -> void:
 	pass
 
-func remove_sprite() -> void:
+func remove_sprite(item:TreeItem) -> void:
 	pass
 
 func import_tree() -> void:
@@ -48,8 +50,10 @@ func import_tree() -> void:
 			return
 		
 		var sprite_tree_children:Array[TreeItem] = sprite.get_children()
-		for i in sprite_data.animation_list.size():
-			var original_anim:String = sprite_data.animation_list[i]
+		#sprite_data.read_atlas(sprite_data.atlas_path)
+		var anim_list:PackedStringArray = sprite_data.animation_list
+		for i in anim_list.size():
+			var original_anim:String = anim_list[i]
 			new_anim_names.keys().append(original_anim)
 			
 			new_anim_names[original_anim] = sprite_tree_children[i].get_text(0)
@@ -58,6 +62,10 @@ func import_tree() -> void:
 	
 	tab.importer.convert_sprite(sprite_list, new_anim_names)
 
-func item_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
-	var button_pressed:bool = item.get_button(column,id) == checkbox_icon_pressed
-	item.set_button(column,id, checkbox_icon_unpressed if button_pressed else checkbox_icon_pressed)
+func item_button_clicked(item:TreeItem, column:int, id:int, mouse_bttn_idx:int):
+	print("shit pressed ig")
+	#remove_sprite(item)
+
+
+func _on_multi_selected(item: TreeItem, column: int, selected: bool) -> void:
+	print("shit pressed ig")

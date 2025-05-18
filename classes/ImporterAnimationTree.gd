@@ -9,7 +9,7 @@ func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 	
 	var sprite:TreeItem = create_item(get_root())
 	sprite.set_text(0, sprite_data.texture.resource_path.get_basename())
-	sprite.collapsed = true
+	#sprite.collapsed = true
 	set_column_expand(0, false)
 	sprite.set_expand_right(0,true)
 	#sprite.add_button(0, checkbox_icon_pressed)

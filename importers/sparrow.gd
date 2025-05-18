@@ -10,8 +10,8 @@ func needs_atlas_path() -> bool:
 func get_atlas_extension() -> String:
 	return ".xml"
 
-func convert_sprite(sprite_data_array:Array[ImporterSpriteData], new_animation_names:Dictionary[String,String] = {}):
-	print(new_animation_names)
+func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:Array[String] = []):
+	print(disabled_anims)
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
@@ -54,12 +54,11 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], new_animation_n
 			
 			frame_list.append(frame)
 		
-		var use_new_anim_names:bool = !new_animation_names.is_empty()
-		
 		for frame:SparrowFrame in frame_list:
 			var anim_name:String = frame.anim_name
-			if use_new_anim_names and new_animation_names.has(anim_name):
-				anim_name = new_animation_names[frame.anim_name]
+			
+			if disabled_anims.has(anim_name):
+				continue
 			
 			if sprite_data_array.size() > 1:
 				anim_name = sprite_data.atlas_path.get_file().get_basename() + "_" + anim_name

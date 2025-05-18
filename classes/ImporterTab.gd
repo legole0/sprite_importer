@@ -24,6 +24,9 @@ func _enter_tree() -> void:
 	if sprite_path != null or atlas_path != null and importer.needs_atlas_path():
 		sprite_path.connect("text_changed", autofill_atlas_path)
 		sprite_path.connect("text_submitted", autofill_atlas_path)
+		
+		atlas_path.connect("text_changed", autofill_sprite_path)
+		atlas_path.connect("text_submitted", autofill_sprite_path)
 
 func process_sprite() -> Array[ImporterSpriteData]:
 	var sprite_list:Array[ImporterSpriteData]
@@ -138,9 +141,21 @@ func file_selected(path:String) -> void:
 		return
 	var is_sprite_path = line_edit.get_meta("is_sprite_path", false)
 	
+	var valid_sprite_extension = find_closest_sprite_extension(path)
+	
 	if is_sprite_path:
+		var texture_extensions:PackedStringArray = importer.get_texture_extensions()
+		if !texture_extensions.has(path.get_extension()):
+			path = path.get_basename() + valid_sprite_extension
+			print(path)
+		
 		autofill_atlas_path(path)
 	else:
+		if "."+path.get_extension() != importer.get_atlas_extension():
+			var atlas_path_predict:String = path.get_basename()+importer.get_atlas_extension()
+			if FileAccess.file_exists(atlas_path_predict):
+				path = atlas_path_predict
+		
 		autofill_sprite_path(path)
 	
 	line_edit.text = path;
@@ -154,14 +169,18 @@ func dir_selected(path:String) -> void:
 		line_edit.text = path;
 	autofill_atlas_path(path)
 
-func autofill_sprite_path(new_path:String):
+func find_closest_sprite_extension(path:String):
 	var texture_extensions:PackedStringArray = importer.get_texture_extensions()
-	if !texture_extensions.has(new_path.get_extension()):
-		var found_new_extension:bool = false
-		for tex_extension:String in texture_extensions:
-			if FileAccess.file_exists(new_path.get_basename() + tex_extension):
-				found_new_extension = true
-				sprite_path.text = new_path.get_basename() + tex_extension
+	for tex_extension:String in texture_extensions:
+		if FileAccess.file_exists(path.get_basename() + tex_extension):
+			return tex_extension
+
+func autofill_sprite_path(new_path:String):
+	if !new_path.get_extension().is_empty():
+		var sprite_path_predict:String = new_path.get_basename() + find_closest_sprite_extension(new_path)
+		
+		if FileAccess.file_exists(sprite_path_predict):
+			sprite_path.text = sprite_path_predict
 
 func autofill_atlas_path(new_path:String):
 	if importer.get_texture_extensions().has("."+new_path.get_extension()):

@@ -3,17 +3,22 @@ class_name ImporterAnimationTree
 
 @export var tab:ImporterTab
 
+@export_group("Icons")
+@export var trash_icon:Texture2D
+
 func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 	if get_root() == null:
 		var root:TreeItem = create_item()
 	
-	var sprite:TreeItem = create_item(get_root())
-	sprite.set_text(0, sprite_data.texture.resource_path.get_basename())
-	#sprite.collapsed = true
 	set_column_expand(0, false)
-	sprite.set_expand_right(0,true)
-	#sprite.add_button(0, checkbox_icon_pressed)
-	sprite.set_metadata(0, sprite_data)
+	
+	var sprite:TreeItem = create_item(get_root())
+	sprite.add_button(0, trash_icon)
+	
+	sprite.set_cell_mode(1, TreeItem.CELL_MODE_STRING)
+	sprite.set_text(1, sprite_data.texture.resource_path.get_basename())
+	sprite.set_expand_right(1,true)
+	sprite.set_metadata(1, sprite_data)
 	
 	for anim_name:String in sprite_data.animation_list:
 		var anim:TreeItem = create_item(sprite)
@@ -44,7 +49,7 @@ func import_tree() -> void:
 	var sprite_list:Array[ImporterSpriteData]
 	
 	for sprite:TreeItem in get_root().get_children():
-		var sprite_data:ImporterSpriteData = sprite.get_metadata(0)
+		var sprite_data:ImporterSpriteData = sprite.get_metadata(1)
 		if sprite_data is not ImporterSpriteData or sprite_data == null:
 			printerr("Could not get sprite data.")
 			return
@@ -56,16 +61,12 @@ func import_tree() -> void:
 			var original_anim:String = anim_list[i]
 			new_anim_names.keys().append(original_anim)
 			
-			new_anim_names[original_anim] = sprite_tree_children[i].get_text(0)
+			new_anim_names[original_anim] = sprite_tree_children[i].get_text(1)
 		
 		sprite_list.append(sprite_data)
 	
 	tab.importer.convert_sprite(sprite_list, new_anim_names)
 
 func item_button_clicked(item:TreeItem, column:int, id:int, mouse_bttn_idx:int):
-	print("shit pressed ig")
-	#remove_sprite(item)
-
-
-func _on_multi_selected(item: TreeItem, column: int, selected: bool) -> void:
-	print("shit pressed ig")
+	print("button clicked")
+	item.free()

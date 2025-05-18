@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5cxhrxi660tp"]
+[gd_scene load_steps=7 format=3 uid="uid://b5cxhrxi660tp"]
 
 [ext_resource type="Script" uid="uid://cs78flk1fnkl7" path="res://addons/sprite_importer/classes/ImporterTab.gd" id="1_qq2jt"]
 [ext_resource type="Script" uid="uid://devi88sa3p828" path="res://addons/sprite_importer/importers/sparrow.gd" id="2_mcfqj"]
 [ext_resource type="Script" uid="uid://0mr8bmgx4pot" path="res://addons/sprite_importer/classes/ImporterAnimationTree.gd" id="3_mcfqj"]
+[ext_resource type="Texture2D" uid="uid://btnp1wb1pyiiw" path="res://addons/sprite_importer/icons/Remove.svg" id="4_a78v5"]
 
 [sub_resource type="Image" id="Image_mcfqj"]
 data = {
@@ -182,6 +183,7 @@ hide_root = true
 auto_tooltip = false
 script = ExtResource("3_mcfqj")
 tab = NodePath("../..")
+trash_icon = ExtResource("4_a78v5")
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2"]
 layout_mode = 2

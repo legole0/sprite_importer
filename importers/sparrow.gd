@@ -11,7 +11,6 @@ func get_atlas_extension() -> String:
 	return ".xml"
 
 func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:Array[String] = [], force_compress_output:bool = false):
-	print(disabled_anims)
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	

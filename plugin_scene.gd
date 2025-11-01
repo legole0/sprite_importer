@@ -1,5 +1,5 @@
 @tool
-extends Node
+extends Control
 
 @export_dir var tabs_path:String
 @export var tab_container:TabContainer
@@ -15,4 +15,10 @@ func _enter_tree() -> void:
 		
 		var tab_path:String = ImportUtils.addon_path + "tabs/" + tab
 		var new_tab:ImporterTab = load(tab_path).instantiate() as ImporterTab
+		
+		for existing_tab in tab_container.get_children():
+			if existing_tab != null and existing_tab is ImporterTab:
+				if existing_tab.importer.get_format_name() == new_tab.importer.get_format_name():
+					continue
+		
 		tab_container.add_child(new_tab)

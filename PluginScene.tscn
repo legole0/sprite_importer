@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c8bj08fb3jmet" path="res://addons/sprite_importer/plugin_scene.gd" id="1_ego4u"]
 
 [node name="SpriteImporter" type="Control" node_paths=PackedStringArray("tab_container")]
-custom_minimum_size = Vector2(0, 350)
+custom_minimum_size = Vector2(0, 391)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

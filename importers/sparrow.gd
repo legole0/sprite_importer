@@ -1,7 +1,7 @@
 @tool
 extends SpriteImporter
 
-func get_format_name() -> String:
+func get_format_name() -> StringName:
 	return "Sparrow"
 
 func needs_atlas_path() -> bool:
@@ -77,12 +77,46 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:
 			last_frame = frame.atlas_texture
 			sprite_frames.add_frame(anim_name,frame.atlas_texture)
 	
-	# GOTTA FIND A BETTER WAY AT HANDLING SAVING FOR MULTIPLE-ATLAS SPRITEFRAMES!!!
-	# BUT FOR NOW IT JUST SAVES IT IN THE FIRST ONE'S PATH
 	var sprite_path:String = sprite_data_array[0].texture.resource_path.get_basename()
+	
+	if sprite_data_array.size() > 1:
+		save_anim_tree(sprite_frames, sprite_path)
+		return
+	
 	var compress_output:bool = sprite_data_array[0].compress_output or force_compress_output
 	var save_path:String = sprite_path+(".tres" if !compress_output else ".res")
 	
 	ResourceSaver.save(sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output else ResourceSaver.FLAG_COMPRESS)
 	if ResourceLoader.exists(save_path):
 		print("SpriteFrame succesfully created at path: "+save_path+"\nFound "+str(dupped_frame_count)+" dupped frames.")
+
+func save_anim_tree(sprite_frames:SpriteFrames, start_path:String = "") -> void:
+	var file_dialog:ConfirmationDialog = make_file_dialog(start_path)
+	file_dialog.connect("file_selected", func(path:String):
+		if path.get_extension() == "res":
+			ResourceSaver.save(sprite_frames, path, ResourceSaver.FLAG_COMPRESS)
+		elif path.get_extension() == "tres":
+			ResourceSaver.save(sprite_frames, path, ResourceSaver.FLAG_NONE)
+		else:
+			printerr("Invalid sprite save extension/path.")
+		)
+
+func make_file_dialog(start_path:String) -> ConfirmationDialog:
+	if Engine.is_editor_hint():
+		var file_dialog:EditorFileDialog = EditorFileDialog.new()
+		file_dialog.title = "Save SpriteFrames"
+		file_dialog.file_mode = EditorFileDialog.FileMode.FILE_MODE_SAVE_FILE
+		file_dialog.size = Vector2(768, 768)
+		file_dialog.initial_position = Window.WindowInitialPosition.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
+		file_dialog.filters = ["*.tres ; Text-based Resource", "*.res ; Compressed Binary Resource"]
+		file_dialog.current_dir = start_path
+		return file_dialog
+	
+	var file_dialog:FileDialog = FileDialog.new()
+	file_dialog.title = "Save SpriteFrames"
+	file_dialog.file_mode = FileDialog.FileMode.FILE_MODE_SAVE_FILE
+	file_dialog.size = Vector2(768,512)
+	file_dialog.initial_position = Window.WindowInitialPosition.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
+	file_dialog.filters = ["*.tres", "*.res"]
+	file_dialog.current_path = start_path
+	return file_dialog

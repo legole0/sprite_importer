@@ -14,7 +14,7 @@ func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 	set_column_expand(0, false)
 	
 	var sprite:TreeItem = create_item(get_root())
-	sprite.add_button(0, trash_icon)
+	sprite.add_button(0, trash_icon, 0)
 	
 	sprite.set_cell_mode(0, TreeItem.CELL_MODE_STRING)
 	sprite.set_text(0, sprite_data.texture.resource_path.get_basename())
@@ -78,6 +78,8 @@ func import_tree() -> void:
 
 func item_button_clicked(item:TreeItem, column:int, id:int, mouse_bttn_idx:int):
 	var sprite_data:ImporterSpriteData = item.get_metadata(0)
-	if sprite_data != null:
-		print("Removed sprite: " + sprite_data.atlas_path.get_basename())
-	item.free()
+	match id:
+		0:
+			if sprite_data != null:
+				print("Removed sprite: " + sprite_data.atlas_path.get_basename())
+			item.free()

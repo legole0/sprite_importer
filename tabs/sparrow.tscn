@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5cxhrxi660tp"]
+[gd_scene load_steps=8 format=3 uid="uid://b5cxhrxi660tp"]
 
 [ext_resource type="Script" uid="uid://cs78flk1fnkl7" path="res://addons/sprite_importer/classes/ImporterTab.gd" id="1_qq2jt"]
 [ext_resource type="Script" uid="uid://devi88sa3p828" path="res://addons/sprite_importer/importers/sparrow.gd" id="2_mcfqj"]
@@ -17,6 +17,21 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_mcfqj"]
 image = SubResource("Image_a78v5")
 
+[sub_resource type="GDScript" id="GDScript_a78v5"]
+script/source = "@tool
+extends Button
+
+@export var check_box:CheckBox
+var _check_box_pressed:bool:
+	set(value):
+		_check_box_pressed = value
+		check_box.button_pressed = _check_box_pressed
+		button_pressed = _check_box_pressed
+
+func _ready() -> void:
+	connect(\"pressed\", func():_check_box_pressed = !_check_box_pressed)
+"
+
 [node name="Sparrow" type="HSplitContainer" node_paths=PackedStringArray("sprite_path", "atlas_path", "fps", "check_dupped", "loop", "compress_output", "anim_tree")]
 visibility_layer = 5
 anchors_preset = -1
@@ -24,10 +39,10 @@ anchor_left = 0.004
 anchor_top = 0.008
 anchor_right = 0.996
 anchor_bottom = 0.992
-offset_left = 0.392
-offset_top = -0.184
-offset_right = -0.39209
-offset_bottom = 0.18396
+offset_left = 0.39199972
+offset_top = -0.18400002
+offset_right = -0.39196777
+offset_bottom = 0.184021
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qq2jt")
@@ -37,7 +52,7 @@ atlas_path = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPa
 fps = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS/SpinBox")
 check_dupped = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Dupped")
 loop = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Loop")
-compress_output = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Compress")
+compress_output = NodePath("VBoxContainer2/FakeCheckbox/CheckBox")
 anim_tree = NodePath("VBoxContainer2/Tree")
 metadata/_tab_index = 0
 
@@ -57,9 +72,10 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel"]
-layout_mode = 2
-offset_right = 564.0
-offset_bottom = 529.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -125,31 +141,37 @@ tooltip_text = "Framerate in which the animations are saved"
 [node name="Label" type="Label" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS"]
 layout_mode = 2
 size_flags_vertical = 1
+tooltip_text = "Framerate of each animation on import, only applicable for Quick Import"
+mouse_filter = 1
 text = "Frame Rate:"
 vertical_alignment = 1
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS"]
 layout_mode = 2
-max_value = 2.14748e+09
+tooltip_text = "Framerate of each animation on import, only applicable for Quick Import"
+max_value = 2147480000.0
 value = 24.0
 suffix = "FPS"
 
 [node name="Dupped" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-tooltip_text = "Skips re-parsing duplicated frames. Highly recommended"
+tooltip_text = "Skips re-parsing duplicated frames. Highly recommended. Only applicable for Quick Import"
 button_pressed = true
 text = "Skip Duplicated"
 
 [node name="Loop" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 8
+tooltip_text = "Makes every animation looped on import. Only applicable for Quick Import"
 text = "Loop"
 
-[node name="Compress" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+[node name="CompressOutput" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-tooltip_text = "Compresses the SpriteFrames into a .res file for smaller file size, tho it makes the file unreadable externally."
+size_flags_vertical = 8
+tooltip_text = "Compresses the file into a .res, making it unreadable through external applications but lighter in filesize. Only applicable for Quick Import"
 text = "Compress Output"
 
 [node name="AddToTree" type="Button" parent="VBoxContainer"]
@@ -184,21 +206,42 @@ script = ExtResource("3_mcfqj")
 tab = NodePath("../..")
 trash_icon = ExtResource("4_a78v5")
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 4
+[node name="Tip" type="Label" parent="VBoxContainer2/Tree"]
+modulate = Color(0.423529, 0.423529, 0.423529, 1)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 12
+text = "*Hover over the checkboxes to know what they do!"
+text_overrun_behavior = 4
 
-[node name="Compress" type="CheckBox" parent="VBoxContainer2/PanelContainer"]
+[node name="FakeCheckbox" type="Button" parent="VBoxContainer2" node_paths=PackedStringArray("check_box")]
 layout_mode = 2
+toggle_mode = true
 text = "Compress Output"
+script = SubResource("GDScript_a78v5")
+check_box = NodePath("CheckBox")
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer2/FakeCheckbox"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 24.0
+offset_bottom = 12.0
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="ImportTree" type="Button" parent="VBoxContainer2"]
 layout_mode = 2
 text = "Make From Tree"
 autowrap_mode = 3
 
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button" binds= ["VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/SpritePath"]]
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button" binds= ["VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/AtlasPath"]]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button"]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button"]
 [connection signal="pressed" from="VBoxContainer/AddToTree" to="." method="add_to_tree"]
 [connection signal="pressed" from="VBoxContainer/QuickImport" to="." method="on_quick_import"]
 [connection signal="button_clicked" from="VBoxContainer2/Tree" to="VBoxContainer2/Tree" method="item_button_clicked"]

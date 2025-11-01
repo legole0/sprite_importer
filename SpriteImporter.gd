@@ -2,7 +2,7 @@ extends RefCounted
 class_name SpriteImporter
 
 ## Name of the format. Will be used as the name of the tab.
-func get_format_name() -> String:
+func get_format_name() -> StringName:
 	return ""
 
 ## Returns a bool depending if the atlas path is automatically determined or a custom path can be used.

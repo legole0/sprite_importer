@@ -34,10 +34,14 @@ func process_sprite() -> Array[ImporterSpriteData]:
 	var sprite_name_list:PackedStringArray
 	var path_is_directory:bool = sprite_path.text.get_extension().is_empty()
 	
+	if sprite_path.text.is_empty():
+		printerr("Provided sprite path is empty.")
+		return []
+	
 	if path_is_directory:
 		if !importer.should_check_dir():
 			printerr("Provided path is a directory.")
-			return PackedStringArray()
+			return []
 		
 		print("Provided path is a directory. Converting every sprite in it...")
 		

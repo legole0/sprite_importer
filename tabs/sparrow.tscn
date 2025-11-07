@@ -207,6 +207,7 @@ tab = NodePath("../..")
 trash_icon = ExtResource("4_a78v5")
 
 [node name="Tip" type="Label" parent="VBoxContainer2/Tree"]
+visible = false
 modulate = Color(0.423529, 0.423529, 0.423529, 1)
 layout_mode = 1
 anchors_preset = 10
@@ -240,8 +241,8 @@ layout_mode = 2
 text = "Make From Tree"
 autowrap_mode = 3
 
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button"]
-[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button"]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/SpritePathContainer/Folder" to="." method="folder_button" flags=18 binds= [NodePath("../SpritePath")]]
+[connection signal="pressed" from="VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPathContainer/Folder" to="." method="folder_button" flags=18 binds= [NodePath("../AtlasPath")]]
 [connection signal="pressed" from="VBoxContainer/AddToTree" to="." method="add_to_tree"]
 [connection signal="pressed" from="VBoxContainer/QuickImport" to="." method="on_quick_import"]
 [connection signal="button_clicked" from="VBoxContainer2/Tree" to="VBoxContainer2/Tree" method="item_button_clicked"]

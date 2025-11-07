@@ -30,6 +30,7 @@ func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 		anim.set_cell_mode(1, TreeItem.CELL_MODE_STRING)
 		anim.set_text(1, anim_name)
 		anim.set_editable(1, true)
+		anim.set_metadata(1, anim_name)
 
 func press_checkbox() -> void:
 	pass
@@ -64,7 +65,6 @@ func import_tree() -> void:
 		if repeated_sprite:
 			continue
 		
-		var sprite_tree_children:Array[TreeItem] = sprite.get_children()
 		#sprite_data.read_atlas(sprite_data.atlas_path)
 		var anim_list:PackedStringArray = sprite_data.animation_list
 		for anim:TreeItem in sprite.get_children():
@@ -74,7 +74,27 @@ func import_tree() -> void:
 			disabled_anims.append(anim.get_text(1))
 		
 		sprite_list.append(sprite_data)
-	tab.importer.convert_sprite(sprite_list, disabled_anims)
+	
+	var imported_sprite_frames:SpriteFrames = tab.importer.convert_sprite(sprite_list, disabled_anims)
+	
+	var save_dialog:ConfirmationDialog = tab._make_file_dialog()
+	save_dialog.title = "Save SpriteFrames"
+	save_dialog.file_mode = EditorFileDialog.FileMode.FILE_MODE_SAVE_FILE
+	save_dialog.filters = ["*.tres ; Text-based Resource", "*.res ; Compressed Binary Resource"]
+	save_dialog.current_dir = sprite_list[0].texture.resource_path.get_base_dir()
+	
+	save_dialog.disconnect("file_selected", tab.file_selected)
+	
+	save_dialog.connect("file_selected", func(path:String):
+		if path.get_extension() == "res":
+			ResourceSaver.save(imported_sprite_frames, path, ResourceSaver.FLAG_COMPRESS)
+		elif path.get_extension() == "tres":
+			ResourceSaver.save(imported_sprite_frames, path, ResourceSaver.FLAG_NONE)
+		else:
+			printerr("Invalid sprite save extension/path.")
+		)
+	add_child(save_dialog)
+	save_dialog.popup_centered(Vector2i(768, 768) if Engine.is_editor_hint() else Vector2i(768, 512))
 
 func item_button_clicked(item:TreeItem, column:int, id:int, mouse_bttn_idx:int):
 	var sprite_data:ImporterSpriteData = item.get_metadata(0)

@@ -14,7 +14,7 @@ var importer:SpriteImporter
 @export var compress_output:CheckBox
 @export var anim_tree:ImporterAnimationTree
 
-var focused_line_edit:NodePath
+var focused_line_edit:Node
 
 func _enter_tree() -> void:
 	if importer_script == null:
@@ -96,10 +96,21 @@ func on_quick_import() -> void:
 		return
 	
 	# doing importer.convert_sprite(sprite_list)
-	# would put all the sprites into the same SpriteFrames!!
+	# would put all the sprites into the same SpriteFrames
+	# In case of it being a directory
 	for sprite_data:ImporterSpriteData in sprite_list:
 		var array:Array[ImporterSpriteData] = [sprite_data]
-		importer.convert_sprite(array)
+		var imported_sprite_frames:SpriteFrames = importer.convert_sprite(array)
+		if imported_sprite_frames == null:
+			printerr("Error found importing sprite. Result equals null.")
+			return
+			
+		var save_path:String = sprite_path.get_basename()+(".tres" if !sprite_data.compress_output else ".res")
+		
+		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !sprite_data.compress_output else ResourceSaver.FLAG_COMPRESS)
+		if ResourceLoader.exists(save_path):
+			print("SpriteFrame succesfully created at path: "+save_path)
+
 
 func _make_file_dialog() -> ConfirmationDialog:
 	if Engine.is_editor_hint():
@@ -132,8 +143,8 @@ func _exit_tree() -> void:
 		sprite_path.disconnect("text_changed", autofill_atlas_path)
 		sprite_path.disconnect("text_submitted", autofill_atlas_path)
 
-func folder_button(_focused_line_edit:String) -> void:
-	focused_line_edit = NodePath(_focused_line_edit)
+func folder_button(source:Button, _focused_line_edit:NodePath) -> void:
+	focused_line_edit = source.get_node(_focused_line_edit)
 	
 	var file_dialog:ConfirmationDialog = _make_file_dialog()
 	add_child(file_dialog)
@@ -141,7 +152,7 @@ func folder_button(_focused_line_edit:String) -> void:
 	file_dialog.connect("visibility_changed", func(): file_dialog.queue_free())
 
 func file_selected(path:String) -> void:
-	var line_edit = get_node(focused_line_edit)
+	var line_edit = focused_line_edit
 	if line_edit is not LineEdit or line_edit == null:
 		return
 	var is_sprite_path = line_edit.get_meta("is_sprite_path", false)
@@ -169,9 +180,11 @@ func dir_selected(path:String) -> void:
 	if !path.ends_with("/"):
 		path += "/"
 	
-	var line_edit = get_node(focused_line_edit)
+	var line_edit = focused_line_edit
 	if line_edit is LineEdit and line_edit != null:
 		line_edit.text = path;
+	else:
+		printerr("Node connected is not a LinePath or is null.")
 	autofill_atlas_path(path)
 
 func find_closest_sprite_extension(path:String):

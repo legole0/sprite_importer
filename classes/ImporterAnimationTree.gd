@@ -119,3 +119,4 @@ func clear_tree() -> void:
 	for sprite:TreeItem in get_root().get_children():
 		sprite.free()
 	anim_name_list.clear()
+	clear_button.disabled = true

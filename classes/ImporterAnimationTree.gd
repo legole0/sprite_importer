@@ -3,15 +3,18 @@ extends Tree
 class_name ImporterAnimationTree
 
 @export var tab:ImporterTab
+@export var clear_button:Button
 
 @export_group("Icons")
 @export var trash_icon:Texture2D
+var anim_name_list:PackedStringArray
 
 func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 	if get_root() == null:
 		var root:TreeItem = create_item()
 	
 	set_column_expand(0, false)
+	clear_button.disabled = false
 	
 	var sprite:TreeItem = create_item(get_root())
 	sprite.add_button(0, trash_icon, 0)
@@ -26,17 +29,16 @@ func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 		anim.set_cell_mode(0,TreeItem.CELL_MODE_CHECK)
 		anim.set_checked(0, true)
 		anim.set_editable(0, true)
-		
-		anim.set_cell_mode(1, TreeItem.CELL_MODE_STRING)
-		anim.set_text(1, anim_name)
 		anim.set_editable(1, true)
+		anim.set_cell_mode(1, TreeItem.CELL_MODE_STRING)
 		anim.set_metadata(1, anim_name)
-
-func press_checkbox() -> void:
-	pass
-
-func remove_sprite(item:TreeItem) -> void:
-	pass
+		
+		if !anim_name_list.has(anim_name):
+			anim_name_list.append(anim_name)
+		else:
+			anim_name = sprite_data.texture.resource_path.get_file().get_basename() + "_" + anim_name
+		
+		anim.set_text(1, anim_name)
 
 func import_tree() -> void:
 	if tab == null:
@@ -65,14 +67,17 @@ func import_tree() -> void:
 		if repeated_sprite:
 			continue
 		
-		#sprite_data.read_atlas(sprite_data.atlas_path)
-		var anim_list:PackedStringArray = sprite_data.animation_list
 		for anim:TreeItem in sprite.get_children():
+			var anim_alias:String = anim.get_text(1)
+			var anim_name:String = anim.get_metadata(1)
+			
+			if anim_name != anim_alias:
+				sprite_data.anim_aliases.set(anim_name, anim_alias)
+			
 			if anim.is_checked(0):
 				continue
 			
-			disabled_anims.append(anim.get_text(1))
-		
+			disabled_anims.append(anim_alias)
 		sprite_list.append(sprite_data)
 	
 	var imported_sprite_frames:SpriteFrames = tab.importer.convert_sprite(sprite_list, disabled_anims)
@@ -102,4 +107,15 @@ func item_button_clicked(item:TreeItem, column:int, id:int, mouse_bttn_idx:int):
 		0:
 			if sprite_data != null:
 				print("Removed sprite: " + sprite_data.atlas_path.get_basename())
+			
+			for anim:TreeItem in item.get_children():
+				anim_name_list.erase(anim.get_text(1))
 			item.free()
+
+func item_edited() -> void:
+	pass
+
+func clear_tree() -> void:
+	for sprite:TreeItem in get_root().get_children():
+		sprite.free()
+	anim_name_list.clear()

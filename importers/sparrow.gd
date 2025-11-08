@@ -4,17 +4,21 @@ extends SpriteImporter
 func get_format_name() -> StringName:
 	return "Sparrow"
 
+func get_importer_data_class() -> String:
+	return "SparrowImporterSpriteData"
+
 func needs_atlas_path() -> bool:
 	return true
 
 func get_atlas_extension() -> String:
 	return ".xml"
 
-func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:Array[String] = [], force_compress_output:bool = false) -> SpriteFrames:
+func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], force_compress_output:bool = false) -> SpriteFrames:
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
 	var last_sprite_path:String
+	var last_replaced_anim:String
 	for sprite_data:ImporterSpriteData in sprite_data_array:
 		sprite_data.read_atlas(sprite_data.atlas_path)
 		var atlas:XMLParser = sprite_data.atlas
@@ -24,14 +28,21 @@ func convert_sprite(sprite_data_array:Array[ImporterSpriteData], disabled_anims:
 		
 		var frame_list:Array[SparrowFrame]
 		while atlas.read() == OK:
-			if atlas.get_node_type() != XMLParser.NODE_ELEMENT: continue
+			if atlas.get_node_type() != XMLParser.NODE_ELEMENT:
+				continue
 			
-			var node_name:String = atlas.get_node_name().to_lower()
-			if node_name != "subtexture":
+			if atlas.get_node_name().to_lower() != "subtexture":
 				continue
 			
 			var frame:SparrowFrame = SparrowFrame.new()
-			frame.anim_name = atlas.get_named_attribute_value("name").left(-4)
+			var anim_name:String = atlas.get_named_attribute_value("name").left(-4)
+			if sprite_data.anim_aliases.has(anim_name):
+				if anim_name != last_replaced_anim:
+					print("Animation:" + anim_name + " replaced with: " + sprite_data.anim_aliases[anim_name])
+				last_replaced_anim = anim_name
+				anim_name = sprite_data.anim_aliases[anim_name]
+				
+			frame.anim_name = anim_name
 			frame.atlas_texture.atlas = sprite_data.texture
 			
 			frame.atlas_texture.region = Rect2(

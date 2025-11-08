@@ -34,6 +34,14 @@ func process_sprite() -> Array[ImporterSpriteData]:
 	var sprite_name_list:PackedStringArray
 	var path_is_directory:bool = sprite_path.text.get_extension().is_empty()
 	
+	var class_list:Array[Dictionary] = ProjectSettings.get_global_class_list()
+	var importer_data_dir:Dictionary = class_list.filter(filter_importer_data_class)[0]
+	if importer_data_dir.is_empty():
+		printerr("The importer data class in the "+ importer.get_format_name() + " importer is invalid or does not extend ImporterSpriteData.")
+		return []
+	
+	var importer_data_class = load(importer_data_dir["path"]).new()
+	
 	if sprite_path.text.is_empty():
 		printerr("Provided sprite path is empty.")
 		return []
@@ -62,15 +70,14 @@ func process_sprite() -> Array[ImporterSpriteData]:
 		var texture:Texture2D = load(sprite)
 		var atlas:String = sprite.get_basename()+importer.get_atlas_extension() if atlas_path.text.is_empty() else atlas_path.text
 		
-		print("Sprite Path: "+sprite+"\nAtlas Path: "+atlas)
+		print("Detected sprite with path: "+sprite+"\nDetected atlas with path: "+atlas)
 		
-		var sprite_data:ImporterSpriteData = ImporterSpriteData.new()
+		var sprite_data:ImporterSpriteData = importer_data_class as ImporterSpriteData
 		sprite_data.texture = texture
 		sprite_data.atlas_path = atlas
 		sprite_data.check_dupped = check_dupped.button_pressed
 		sprite_data.loop = loop.button_pressed
 		sprite_data.fps = fps.value
-		sprite_data.compress_output = compress_output.button_pressed
 		sprite_list.append(sprite_data)
 	
 	return sprite_list
@@ -105,9 +112,9 @@ func on_quick_import() -> void:
 			printerr("Error found importing sprite. Result equals null.")
 			return
 			
-		var save_path:String = sprite_path.get_basename()+(".tres" if !sprite_data.compress_output else ".res")
+		var save_path:String = sprite_path.text.get_basename()+(".tres" if !compress_output else ".res")
 		
-		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !sprite_data.compress_output else ResourceSaver.FLAG_COMPRESS)
+		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output else ResourceSaver.FLAG_COMPRESS)
 		if ResourceLoader.exists(save_path):
 			print("SpriteFrame succesfully created at path: "+save_path)
 
@@ -206,3 +213,9 @@ func autofill_atlas_path(new_path:String):
 		
 		if FileAccess.file_exists(atlas_path_predict):
 			atlas_path.text = atlas_path_predict
+
+func filter_importer_data_class(_class:Dictionary) -> bool:
+	if _class["base"] != "ImporterSpriteData":
+		return false
+	
+	return _class["class"] == importer.get_importer_data_class()

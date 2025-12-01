@@ -127,9 +127,9 @@ func _make_file_dialog() -> ConfirmationDialog:
 	else:
 		file_dialog = FileDialog.new()
 	
-	file_dialog.title = "Select a spritesheet"
 	file_dialog.file_mode = FileDialog.FileMode.FILE_MODE_OPEN_ANY
-	file_dialog.size = Vector2(768,512)
+	var screen_size:Vector2 = DisplayServer.screen_get_size()
+	file_dialog.size = Vector2(screen_size.x / 2, screen_size.y / 1.5)
 	file_dialog.initial_position = Window.WindowInitialPosition.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
 	file_dialog.connect("dir_selected",dir_selected)
 	file_dialog.connect("file_selected",file_selected)
@@ -156,6 +156,7 @@ func folder_button(source:Button, _focused_line_edit:NodePath) -> void:
 	focused_line_edit = source.get_node(_focused_line_edit)
 	
 	var file_dialog:ConfirmationDialog = _make_file_dialog()
+	file_dialog.title = "Select a spritesheet"
 	add_child(file_dialog)
 	file_dialog.popup_centered()
 	file_dialog.connect("visibility_changed", func(): file_dialog.queue_free())

@@ -19,14 +19,14 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], 
 	
 	var last_sprite_path:String
 	var last_replaced_anim:String
-	for sprite_data:ImporterSpriteData in sprite_data_array:
+	for sprite_data:SparrowImporterSpriteData in sprite_data_array:
 		sprite_data.read_atlas(sprite_data.atlas_path)
 		var atlas:XMLParser = sprite_data.atlas
 		
 		var last_frame:AtlasTexture = AtlasTexture.new()
 		last_frame.atlas = sprite_data.texture
 		
-		var frame_list:Array[SparrowFrame]
+		var frame_list:Array[AnimationFrame]
 		while atlas.read() == OK:
 			if atlas.get_node_type() != XMLParser.NODE_ELEMENT:
 				continue
@@ -34,7 +34,7 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], 
 			if atlas.get_node_name().to_lower() != "subtexture":
 				continue
 			
-			var frame:SparrowFrame = SparrowFrame.new()
+			var frame:AnimationFrame = AnimationFrame.new()
 			var anim_name:String = atlas.get_named_attribute_value("name").left(-4)
 			if sprite_data.anim_aliases.has(anim_name):
 				if anim_name != last_replaced_anim:
@@ -63,7 +63,7 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], 
 			
 			frame_list.append(frame)
 		
-		for frame:SparrowFrame in frame_list:
+		for frame:AnimationFrame in frame_list:
 			var anim_name:String = frame.anim_name
 			
 			if disabled_anims.has(anim_name):

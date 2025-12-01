@@ -16,7 +16,7 @@ var importer:SpriteImporter
 
 var focused_line_edit:Node
 
-func _enter_tree() -> void:
+func _ready() -> void:
 	if importer_script == null:
 		return
 	importer = (importer_script).new() as SpriteImporter
@@ -40,7 +40,7 @@ func process_sprite() -> Array[ImporterSpriteData]:
 		printerr("The importer data class in the "+ importer.get_format_name() + " importer is invalid or does not extend ImporterSpriteData.")
 		return []
 	
-	var importer_data_class = load(importer_data_dir["path"]).new()
+	var importer_data_class = load(importer_data_dir["path"])
 	
 	if sprite_path.text.is_empty():
 		printerr("Provided sprite path is empty.")
@@ -72,7 +72,7 @@ func process_sprite() -> Array[ImporterSpriteData]:
 		
 		print("Detected sprite with path: "+sprite+"\nDetected atlas with path: "+atlas)
 		
-		var sprite_data:ImporterSpriteData = importer_data_class as ImporterSpriteData
+		var sprite_data:ImporterSpriteData = importer_data_class.new()
 		sprite_data.texture = texture
 		sprite_data.atlas_path = atlas
 		sprite_data.check_dupped = check_dupped.button_pressed
@@ -104,7 +104,7 @@ func on_quick_import() -> void:
 	
 	# doing importer.convert_sprite(sprite_list)
 	# would put all the sprites into the same SpriteFrames
-	# In case of it being a directory
+	# in case of it being a directory
 	for sprite_data:ImporterSpriteData in sprite_list:
 		var array:Array[ImporterSpriteData] = [sprite_data]
 		var imported_sprite_frames:SpriteFrames = importer.convert_sprite(array)
@@ -112,33 +112,35 @@ func on_quick_import() -> void:
 			printerr("Error found importing sprite. Result equals null.")
 			return
 			
-		var save_path:String = sprite_path.text.get_basename()+(".tres" if !compress_output else ".res")
+		var save_path:String = sprite_data.texture.resource_path.get_basename()+(".tres" if !compress_output.pressed else ".res")
 		
-		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output else ResourceSaver.FLAG_COMPRESS)
+		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output.pressed else ResourceSaver.FLAG_COMPRESS)
 		if ResourceLoader.exists(save_path):
 			print("SpriteFrame succesfully created at path: "+save_path)
 
 
 func _make_file_dialog() -> ConfirmationDialog:
-	if Engine.is_editor_hint():
-		var file_dialog:EditorFileDialog = EditorFileDialog.new()
-		file_dialog.title = "Select a spritesheet"
-		file_dialog.file_mode = EditorFileDialog.FileMode.FILE_MODE_OPEN_ANY
-		file_dialog.size = Vector2(768, 768)
-		file_dialog.initial_position = Window.WindowInitialPosition.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-		file_dialog.filters = ["*.png", "*.webp", "*.xml"]
-		file_dialog.connect("dir_selected",dir_selected)
-		file_dialog.connect("file_selected",file_selected)
-		return file_dialog
+	var file_dialog:ConfirmationDialog
 	
-	var file_dialog:FileDialog = FileDialog.new()
+	if Engine.is_editor_hint():
+		file_dialog = EditorFileDialog.new()
+	else:
+		file_dialog = FileDialog.new()
+	
 	file_dialog.title = "Select a spritesheet"
 	file_dialog.file_mode = FileDialog.FileMode.FILE_MODE_OPEN_ANY
 	file_dialog.size = Vector2(768,512)
 	file_dialog.initial_position = Window.WindowInitialPosition.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-	file_dialog.filters = ["*.png", "*.webp", "*.xml"]
 	file_dialog.connect("dir_selected",dir_selected)
 	file_dialog.connect("file_selected",file_selected)
+	
+	var filters:PackedStringArray = importer.get_texture_extensions() + PackedStringArray([importer.get_atlas_extension()])
+	for i in filters.size():
+		var filter:String = filters[i]
+		filter = "*"+filter
+		filters[i] = filter
+	file_dialog.filters = filters
+	
 	return file_dialog
 
 func _exit_tree() -> void:
@@ -201,7 +203,7 @@ func find_closest_sprite_extension(path:String):
 			return tex_extension
 
 func autofill_sprite_path(new_path:String):
-	if !new_path.get_extension().is_empty():
+	if !new_path.get_extension().is_empty() and find_closest_sprite_extension(new_path) != null:
 		var sprite_path_predict:String = new_path.get_basename() + find_closest_sprite_extension(new_path)
 		
 		if FileAccess.file_exists(sprite_path_predict):

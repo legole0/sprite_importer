@@ -17,6 +17,6 @@ var animation_list:PackedStringArray:
 			return get_animation_list()
 		return animation_list
 
-@abstract func read_atlas(atlas_path:String)
+@abstract func read_atlas(atlas_path:String) -> void
 
-@abstract func get_animation_list() -> PackedStringArray
+@abstract func get_animation_list()

@@ -18,7 +18,7 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_mcfqj"]
 image = SubResource("Image_kwuyh")
 
-[node name="Sparrow" type="HSplitContainer" node_paths=PackedStringArray("sprite_path", "atlas_path", "fps", "check_dupped", "loop", "anim_tree")]
+[node name="Sparrow" type="HSplitContainer" node_paths=PackedStringArray("sprite_path", "atlas_path", "fps", "check_dupped", "loop", "compress_output", "anim_tree")]
 visibility_layer = 5
 anchors_preset = -1
 anchor_left = 0.004
@@ -38,6 +38,7 @@ atlas_path = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/AtlasPa
 fps = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/FPS/SpinBox")
 check_dupped = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Dupped")
 loop = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/Loop")
+compress_output = NodePath("VBoxContainer/Panel/ScrollContainer/VBoxContainer/CompressOutput")
 anim_tree = NodePath("VBoxContainer2/Tree")
 metadata/_tab_index = 0
 

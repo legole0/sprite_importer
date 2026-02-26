@@ -163,6 +163,14 @@ size_flags_vertical = 8
 tooltip_text = "Compresses the file into a .res, making it unreadable through external applications but lighter in filesize. Only applicable for Quick Import"
 text = "Compress Output"
 
+[node name="MakeAnimationLibrary" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer" unique_id=668283674]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+tooltip_text = "Compresses the file into a .res, making it unreadable through external applications but lighter in filesize. Only applicable for Quick Import"
+button_pressed = true
+text = "Make AnimationLibrary"
+
 [node name="UseFrameDuration" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer" unique_id=366114497]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -170,14 +178,6 @@ size_flags_vertical = 8
 tooltip_text = "Compresses the file into a .res, making it unreadable through external applications but lighter in filesize. Only applicable for Quick Import"
 button_pressed = true
 text = "Use Frame Duration"
-
-[node name="MakeAnimationLibrary" type="CheckBox" parent="VBoxContainer/Panel/ScrollContainer/VBoxContainer" unique_id=668283674]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-tooltip_text = "Compresses the file into a .res, making it unreadable through external applications but lighter in filesize. Only applicable for Quick Import"
-disabled = true
-text = "Make AnimationLibrary (requires SpriteFrames Keyframer)"
 
 [node name="AddToTree" type="Button" parent="VBoxContainer" unique_id=1362438151]
 layout_mode = 2

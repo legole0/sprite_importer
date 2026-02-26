@@ -23,6 +23,12 @@ func _ready() -> void:
 		return
 	importer = (importer_script).new() as SpriteImporter
 	name = importer.get_format_name()
+	var enabled_plugins = ProjectSettings.get_setting("editor_plugins/enabled")
+	var has_spriteframe_keyframer = enabled_plugins.has("res://addons/spriteframes_keyframer/plugin.cfg")
+	if has_spriteframe_keyframer:
+		make_anim_library.disabled = false
+		make_anim_library.text = "Make AnimationLibrary"
+		make_anim_library.button_pressed = true
 	
 	if quick_sprite_path != null or quick_atlas_path != null and importer.needs_atlas_path():
 		quick_sprite_path.connect("text_changed", autofill_atlas_path)
@@ -120,6 +126,16 @@ func on_quick_import() -> void:
 		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !quick_compress_output.pressed else ResourceSaver.FLAG_COMPRESS)
 		if ResourceLoader.exists(save_path):
 			print("SpriteFrame succesfully created at path: "+save_path)
+			
+			if make_anim_library:
+				var class_list:Array[Dictionary] = ProjectSettings.get_global_class_list()
+				var keyframer_data:Dictionary = class_list.filter(filter_keyframer_data_class)[0]
+				if keyframer_data.is_empty():
+					printerr("Attempted to create AnimationLibrary, but SpriteFramesKeyframer wasn't found")
+					return
+				
+				var keyframer = load(keyframer_data["path"])
+				keyframer._make_library([save_path])
 
 
 func _make_file_dialog() -> ConfirmationDialog:
@@ -225,3 +241,6 @@ func filter_importer_data_class(_class:Dictionary) -> bool:
 		return false
 	
 	return _class["class"] == importer.get_importer_data_class()
+
+func filter_keyframer_data_class(_class:Dictionary) -> bool:
+	return _class["class"] == "SpriteFramesKeyframer"

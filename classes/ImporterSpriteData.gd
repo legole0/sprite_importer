@@ -8,6 +8,7 @@ var atlas:Variant
 var atlas_path:String
 var loop:bool = false
 var check_dupped:bool = true
+var use_frame_duration:bool = true
 var fps:int = 24
 var anim_aliases:Dictionary[String, String]
 

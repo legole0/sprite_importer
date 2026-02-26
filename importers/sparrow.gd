@@ -13,7 +13,7 @@ func needs_atlas_path() -> bool:
 func get_atlas_extension() -> String:
 	return ".xml"
 
-func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], force_compress_output:bool = false) -> SpriteFrames:
+func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = []) -> SpriteFrames:
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
@@ -63,7 +63,22 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], 
 			
 			frame_list.append(frame)
 		
-		for frame:AnimationFrame in frame_list:
+		var frame_duration_list:Dictionary[int, float]
+		
+		if sprite_data.use_frame_duration and sprite_data.check_dupped:
+			var last_full_frame:int
+			for i:int in frame_list.size():
+				var frame:AnimationFrame = frame_list[i]
+				if frame.atlas_texture.region != last_frame.region:
+					last_full_frame = i
+				else:
+					if !frame_duration_list.has(last_full_frame):
+						frame_duration_list.set(last_full_frame, 1)
+					frame_duration_list.set(last_full_frame, frame_duration_list.get(last_full_frame) + 1)
+				last_frame = frame.atlas_texture
+		
+		for i:int in frame_list.size():
+			var frame:AnimationFrame = frame_list[i]
 			var anim_name:String = frame.anim_name
 			
 			if disabled_anims.has(anim_name):
@@ -75,13 +90,20 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = [], 
 				sprite_frames.set_animation_speed(anim_name,sprite_data.fps)
 			
 			if sprite_data.check_dupped and frame.atlas_texture.region == last_frame.region:
+				if sprite_data.use_frame_duration:
+					continue
 				frame.atlas_texture = last_frame
 			
 			if frame.atlas_margin != null:
 				frame.atlas_texture.margin = frame.atlas_margin
 			
 			last_frame = frame.atlas_texture
-			sprite_frames.add_frame(anim_name,frame.atlas_texture)
+			
+			var duration:float = 1
+			if frame_duration_list.has(i):
+				duration = frame_duration_list[i]
+			#print(duration)
+			sprite_frames.add_frame(anim_name,frame.atlas_texture, duration)
 		last_sprite_path = sprite_data.texture.resource_path
 	
 	return sprite_frames

@@ -5,13 +5,15 @@ class_name ImporterTab
 @export var importer_script:GDScript
 var importer:SpriteImporter
 
-@export_group("References")
-@export var sprite_path:LineEdit
-@export var atlas_path:LineEdit
-@export var fps:SpinBox
-@export var check_dupped:CheckBox
-@export var loop:CheckBox
-@export var compress_output:CheckBox
+@export_group("Quick Import References", "quick_")
+@export var quick_sprite_path:LineEdit
+@export var quick_atlas_path:LineEdit
+@export var quick_fps:SpinBox
+@export var quick_check_dupped:CheckBox
+@export var quick_loop:CheckBox
+@export var quick_compress_output:CheckBox
+@export var quick_use_frame_duration:CheckBox
+@export var make_anim_library:CheckBox
 @export var anim_tree:ImporterAnimationTree
 
 var focused_line_edit:Node
@@ -22,17 +24,17 @@ func _ready() -> void:
 	importer = (importer_script).new() as SpriteImporter
 	name = importer.get_format_name()
 	
-	if sprite_path != null or atlas_path != null and importer.needs_atlas_path():
-		sprite_path.connect("text_changed", autofill_atlas_path)
-		sprite_path.connect("text_submitted", autofill_atlas_path)
+	if quick_sprite_path != null or quick_atlas_path != null and importer.needs_atlas_path():
+		quick_sprite_path.connect("text_changed", autofill_atlas_path)
+		quick_sprite_path.connect("text_submitted", autofill_atlas_path)
 		
-		atlas_path.connect("text_changed", autofill_sprite_path)
-		atlas_path.connect("text_submitted", autofill_sprite_path)
+		quick_atlas_path.connect("text_changed", autofill_sprite_path)
+		quick_atlas_path.connect("text_submitted", autofill_sprite_path)
 
 func process_sprite() -> Array[ImporterSpriteData]:
 	var sprite_list:Array[ImporterSpriteData]
 	var sprite_name_list:PackedStringArray
-	var path_is_directory:bool = sprite_path.text.get_extension().is_empty()
+	var path_is_directory:bool = quick_sprite_path.text.get_extension().is_empty()
 	
 	var class_list:Array[Dictionary] = ProjectSettings.get_global_class_list()
 	var importer_data_dir:Dictionary = class_list.filter(filter_importer_data_class)[0]
@@ -42,7 +44,7 @@ func process_sprite() -> Array[ImporterSpriteData]:
 	
 	var importer_data_class = load(importer_data_dir["path"])
 	
-	if sprite_path.text.is_empty():
+	if quick_sprite_path.text.is_empty():
 		printerr("Provided sprite path is empty.")
 		return []
 	
@@ -53,13 +55,13 @@ func process_sprite() -> Array[ImporterSpriteData]:
 		
 		print("Provided path is a directory. Converting every sprite in it...")
 		
-		var folder_sprites:PackedStringArray = DirAccess.get_files_at(sprite_path.text);
+		var folder_sprites:PackedStringArray = DirAccess.get_files_at(quick_sprite_path.text);
 		
 		for sprite:String in folder_sprites:
-			sprite_name_list.append(sprite_path.text+sprite)
+			sprite_name_list.append(quick_sprite_path.text+sprite)
 			#print("Found sprite: " + sprite_path.text+sprite)
 	else:
-		sprite_name_list.append(sprite_path.text)
+		sprite_name_list.append(quick_sprite_path.text)
 	
 	for sprite:String in sprite_name_list:
 		if !FileAccess.file_exists(sprite) or !importer.get_texture_extensions().has("."+sprite.get_extension()):
@@ -68,16 +70,17 @@ func process_sprite() -> Array[ImporterSpriteData]:
 			continue
 		
 		var texture:Texture2D = load(sprite)
-		var atlas:String = sprite.get_basename()+importer.get_atlas_extension() if atlas_path.text.is_empty() else atlas_path.text
+		var atlas:String = sprite.get_basename()+importer.get_atlas_extension() if quick_atlas_path.text.is_empty() else quick_atlas_path.text
 		
 		print("Detected sprite with path: "+sprite+"\nDetected atlas with path: "+atlas)
 		
 		var sprite_data:ImporterSpriteData = importer_data_class.new()
 		sprite_data.texture = texture
 		sprite_data.atlas_path = atlas
-		sprite_data.check_dupped = check_dupped.button_pressed
-		sprite_data.loop = loop.button_pressed
-		sprite_data.fps = fps.value
+		sprite_data.check_dupped = quick_check_dupped.button_pressed
+		sprite_data.loop = quick_loop.button_pressed
+		sprite_data.fps = quick_fps.value
+		sprite_data.use_frame_duration = quick_use_frame_duration.button_pressed
 		sprite_list.append(sprite_data)
 	
 	return sprite_list
@@ -92,8 +95,8 @@ func add_to_tree():
 	for sprite_data:ImporterSpriteData in sprite_list:
 		anim_tree.recieve_sprite(sprite_data)
 	
-	sprite_path.text = ""
-	atlas_path.text = ""
+	quick_sprite_path.text = ""
+	quick_atlas_path.text = ""
 
 func on_quick_import() -> void:
 	var sprite_list:Array[ImporterSpriteData] = process_sprite()
@@ -112,9 +115,9 @@ func on_quick_import() -> void:
 			printerr("Error found importing sprite. Result equals null.")
 			return
 			
-		var save_path:String = sprite_data.texture.resource_path.get_basename()+(".tres" if !compress_output.pressed else ".res")
+		var save_path:String = sprite_data.texture.resource_path.get_basename()+(".tres" if !quick_compress_output.pressed else ".res")
 		
-		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !compress_output.pressed else ResourceSaver.FLAG_COMPRESS)
+		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !quick_compress_output.pressed else ResourceSaver.FLAG_COMPRESS)
 		if ResourceLoader.exists(save_path):
 			print("SpriteFrame succesfully created at path: "+save_path)
 
@@ -148,9 +151,9 @@ func _exit_tree() -> void:
 		#file_dialog.disconnect("dir_selected",dir_selected)
 		#file_dialog.disconnect("file_selected",file_selected)
 	
-	if sprite_path != null and atlas_path != null and importer.needs_atlas_path():
-		sprite_path.disconnect("text_changed", autofill_atlas_path)
-		sprite_path.disconnect("text_submitted", autofill_atlas_path)
+	if quick_sprite_path != null and quick_atlas_path != null and importer.needs_atlas_path():
+		quick_sprite_path.disconnect("text_changed", autofill_atlas_path)
+		quick_sprite_path.disconnect("text_submitted", autofill_atlas_path)
 
 func folder_button(source:Button, _focused_line_edit:NodePath) -> void:
 	focused_line_edit = source.get_node(_focused_line_edit)
@@ -208,14 +211,14 @@ func autofill_sprite_path(new_path:String):
 		var sprite_path_predict:String = new_path.get_basename() + find_closest_sprite_extension(new_path)
 		
 		if FileAccess.file_exists(sprite_path_predict):
-			sprite_path.text = sprite_path_predict
+			quick_sprite_path.text = sprite_path_predict
 
 func autofill_atlas_path(new_path:String):
 	if importer.get_texture_extensions().has("."+new_path.get_extension()):
 		var atlas_path_predict:String = new_path.get_basename() + importer.get_atlas_extension()
 		
 		if FileAccess.file_exists(atlas_path_predict):
-			atlas_path.text = atlas_path_predict
+			quick_atlas_path.text = atlas_path_predict
 
 func filter_importer_data_class(_class:Dictionary) -> bool:
 	if _class["base"] != "ImporterSpriteData":

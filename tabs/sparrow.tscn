@@ -176,7 +176,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 tooltip_text = "Compresses the file into a .res, making it unreadable through external applications but lighter in filesize. Only applicable for Quick Import"
-button_pressed = true
 text = "Use Frame Duration"
 
 [node name="AddToTree" type="Button" parent="VBoxContainer" unique_id=1362438151]

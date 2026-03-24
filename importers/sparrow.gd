@@ -17,16 +17,15 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = []) 
 	var sprite_frames:SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 	
-	var last_sprite_path:String
 	var last_replaced_anim:String
+	var frame_list:Dictionary[String, Array]
 	for sprite_data:SparrowImporterSpriteData in sprite_data_array:
 		sprite_data.read_atlas(sprite_data.atlas_path)
 		var atlas:XMLParser = sprite_data.atlas
 		
-		var last_frame:AtlasTexture = AtlasTexture.new()
-		last_frame.atlas = sprite_data.texture
+		var last_frame:AnimationFrame = AnimationFrame.new()
+		last_frame.atlas_texture.atlas = sprite_data.texture
 		
-		var frame_list:Array[AnimationFrame]
 		while atlas.read() == OK:
 			if atlas.get_node_type() != XMLParser.NODE_ELEMENT:
 				continue
@@ -35,14 +34,18 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = []) 
 				continue
 			
 			var frame:AnimationFrame = AnimationFrame.new()
-			var anim_name:String = atlas.get_named_attribute_value("name").left(-4)
+			var anim_name:String = atlas.get_named_attribute_value("name")
+			var anim_index_raw:String = get_anim_index(anim_name)
+			var indexless_anim:String = anim_name.replace(anim_index_raw, "")
+			
 			if sprite_data.anim_aliases.has(anim_name):
 				if anim_name != last_replaced_anim:
 					print("Animation:" + anim_name + " replaced with: " + sprite_data.anim_aliases[anim_name])
 				last_replaced_anim = anim_name
 				anim_name = sprite_data.anim_aliases[anim_name]
 				
-			frame.anim_name = anim_name
+			frame.anim_name = indexless_anim
+			frame.frame_idx = int(anim_index_raw)
 			frame.atlas_texture.atlas = sprite_data.texture
 			
 			frame.atlas_texture.region = Rect2(
@@ -61,49 +64,47 @@ func convert_sprite(sprite_data_array:Array, disabled_anims:Array[String] = []) 
 					atlas.get_named_attribute_value_safe("frameHeight").to_float() - frame.atlas_texture.region.size.y
 					)
 			
-			frame_list.append(frame)
-		
-		var frame_duration_list:Dictionary[int, float]
-		
-		if sprite_data.use_frame_duration and sprite_data.check_dupped:
-			var last_full_frame:int
-			for i:int in frame_list.size():
-				var frame:AnimationFrame = frame_list[i]
-				if frame.atlas_texture.region != last_frame.region:
-					last_full_frame = i
-				else:
-					if !frame_duration_list.has(last_full_frame):
-						frame_duration_list.set(last_full_frame, 1)
-					frame_duration_list.set(last_full_frame, frame_duration_list.get(last_full_frame) + 1)
-				last_frame = frame.atlas_texture
-		
-		for i:int in frame_list.size():
-			var frame:AnimationFrame = frame_list[i]
-			var anim_name:String = frame.anim_name
+			if !frame_list.has(indexless_anim):
+				frame_list[indexless_anim] = []
+				if !sprite_frames.has_animation(indexless_anim):
+					sprite_frames.add_animation(indexless_anim)
+					sprite_frames.set_animation_loop(indexless_anim, sprite_data.loop)
+					sprite_frames.set_animation_speed(indexless_anim, sprite_data.fps)
 			
-			if disabled_anims.has(anim_name):
-				continue
-			
-			if !sprite_frames.has_animation(anim_name):
-				sprite_frames.add_animation(anim_name)
-				sprite_frames.set_animation_loop(anim_name,sprite_data.loop)
-				sprite_frames.set_animation_speed(anim_name,sprite_data.fps)
-			
-			if sprite_data.check_dupped and frame.atlas_texture.region == last_frame.region:
+			if frame.atlas_texture.region == last_frame.atlas_texture.region:
 				if sprite_data.use_frame_duration:
+					frame_list[indexless_anim][frame_list[indexless_anim].find(last_frame)].frame_duration += 1
 					continue
-				frame.atlas_texture = last_frame
-			
+				frame.atlas_texture = last_frame.atlas_texture
+				
 			if frame.atlas_margin != null:
 				frame.atlas_texture.margin = frame.atlas_margin
 			
-			last_frame = frame.atlas_texture
+			last_frame = frame
 			
-			var duration:float = 1
-			if frame_duration_list.has(i):
-				duration = frame_duration_list[i]
-			#print(duration)
-			sprite_frames.add_frame(anim_name,frame.atlas_texture, duration)
-		last_sprite_path = sprite_data.texture.resource_path
+			frame_list[indexless_anim].push_back(frame)
+	
+	for anim:String in frame_list.keys():
+		frame_list[anim].sort_custom(sort_frames)
+		
+		if disabled_anims.has(anim):
+			continue
+			
+		for frame:AnimationFrame in frame_list[anim]:
+			sprite_frames.add_frame(anim,frame.atlas_texture, frame.frame_duration)
 	
 	return sprite_frames
+
+func sort_frames(a:AnimationFrame, b:AnimationFrame) -> bool:
+	return a.frame_idx < b.frame_idx
+
+var regex:RegEx = RegEx.new()
+func get_anim_index(anim_name:String) -> String:
+	if regex.get_pattern().is_empty() or regex.get_pattern() == null:
+		regex.compile("\\d+$")
+	
+	var index:RegExMatch = regex.search(anim_name)
+	if index:
+		return index.get_string()
+	
+	return "0"

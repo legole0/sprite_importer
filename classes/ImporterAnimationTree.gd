@@ -36,7 +36,8 @@ func recieve_sprite(sprite_data:ImporterSpriteData) -> void:
 		if !anim_name_list.has(anim_name):
 			anim_name_list.append(anim_name)
 		else:
-			anim_name = sprite_data.texture.resource_path.get_file().get_basename() + "_" + anim_name
+			anim_name += " (merged)"
+			#anim_name = sprite_data.texture.resource_path.get_file().get_basename() + "_" + anim_name
 		
 		anim.set_text(1, anim_name)
 

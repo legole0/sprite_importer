@@ -5,6 +5,9 @@ static var importer_scene:Control
 var dock:EditorDock
 
 func _enter_tree() -> void:
+	if !Engine.is_editor_hint():
+		return
+	
 	ImportUtils.addon_path = get_script().resource_path.get_base_dir()+"/"
 	importer_scene = load(ImportUtils.addon_path+"PluginScene.tscn").instantiate()
 	
@@ -18,6 +21,9 @@ func _enter_tree() -> void:
 	add_dock(dock)
 
 func _exit_tree() -> void:
+	if !Engine.is_editor_hint():
+		return
+	
 	remove_dock(dock)
 	importer_scene.queue_free()
 

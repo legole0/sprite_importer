@@ -121,7 +121,7 @@ func on_quick_import() -> void:
 			printerr("Error found importing sprite. Result equals null.")
 			return
 			
-		var save_path:String = sprite_data.texture.resource_path.get_basename()+(".tres" if !quick_compress_output.button_pressed else ".res")
+		var save_path:String = "%s_frames%s" % [sprite_data.texture.resource_path.get_basename(), ".tres" if !quick_compress_output.button_pressed else ".res"]
 		ResourceSaver.save(imported_sprite_frames,save_path,ResourceSaver.FLAG_NONE if !quick_compress_output.button_pressed else ResourceSaver.FLAG_COMPRESS)
 		if ResourceLoader.exists(save_path):
 			print("SpriteFrame succesfully created at path: "+save_path)

@@ -134,6 +134,7 @@ func on_quick_import() -> void:
 					return
 				
 				var keyframer = load(keyframer_data["path"])
+				var library_path: String = "%s%s" % [sprite_data.texture.resource_path.get_basename(), ".tres" if !quick_compress_output.button_pressed else ".res"]
 				keyframer._make_library([save_path])
 
 
